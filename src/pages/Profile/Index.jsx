@@ -1,9 +1,10 @@
 import React from 'react';
 
-function Profile() {
+const Profile = () => {
+  console.log('teste');
   return (
-    <h1>Profile</h1>
+    <div>index</div>
   );
-}
+};
 
 export default Profile;
