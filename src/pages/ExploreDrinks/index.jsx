@@ -1,13 +1,13 @@
 import React from 'react';
 import Header from '../../components/Header';
 
-const Profile = () => {
+const ExploreDrinks = () => {
   console.log('teste');
   return (
     <div>
-      <Header pageName="Profile" searchEnabled={ false } />
+      <Header pageName="Explore Drinks" searchEnabled={ false } />
     </div>
   );
 };
 
-export default Profile;
+export default ExploreDrinks;

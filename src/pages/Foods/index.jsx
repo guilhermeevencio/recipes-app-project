@@ -5,7 +5,7 @@ const Foods = () => {
   console.log('hello world');
   return (
     <div>
-      <Header />
+      <Header pageName="Foods" searchEnabled />
     </div>
   );
 };
