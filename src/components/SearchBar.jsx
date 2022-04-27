@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import AppContext from '../context/MyContext';
@@ -18,10 +18,13 @@ const SearchBar = (props) => {
 
   const handleSelected = (event) => {
     setRadioSelected(event.currentTarget.value);
-    if (event.target.value === FIRST_LETTER && searchInputValue.length + 1 > 1) {
+  };
+
+  useEffect(() => {
+    if (radioSelected === FIRST_LETTER && searchInputValue.length > 1) {
       global.alert('Your search must have only 1 (one) character');
     }
-  };
+  }, [searchInputValue, radioSelected]);
 
   const handleWithURL = () => {
     switch (radioSelected) {
@@ -43,9 +46,6 @@ const SearchBar = (props) => {
   const handleSearchValue = (event) => {
     setSearchInputValue(event.target.value);
     handleWithURL();
-    if (radioSelected === FIRST_LETTER && searchInputValue.length + 1 > 1) {
-      global.alert('Your search must have only 1 (one) character');
-    }
   };
 
   const handleSubmit = async () => {
@@ -59,6 +59,7 @@ const SearchBar = (props) => {
     const fullUrl = url + endpoint + searchInputValue;
     const dataFromApi = await fetchFromApi(fullUrl);
     setDataFromApiSearch(dataFromApi);
+    console.log(dataFromApi);
     if (page === 'Foods' && dataFromApi.meals.length === 1) {
       history.push(`/foods/${dataFromApi.meals[0].idMeal}`);
     }
