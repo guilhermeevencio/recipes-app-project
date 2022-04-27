@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import AppContext from '../context/MyContext';
-import fetchFromApi from '../services/fetchFromApi';
+import AppContext from '../../context/MyContext';
+import fetchFromApi from '../../services/fetchFromApi';
 
 const FIRST_LETTER = 'First Letter';
 
