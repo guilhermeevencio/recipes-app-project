@@ -59,11 +59,10 @@ const SearchBar = (props) => {
     const fullUrl = url + endpoint + searchInputValue;
     const dataFromApi = await fetchFromApi(fullUrl);
     setDataFromApiSearch(dataFromApi);
-    if (dataFromApi.meals.length === 1 && page === 'Foods') {
+    if (page === 'Foods' && dataFromApi.meals.length === 1) {
       history.push(`/foods/${dataFromApi.meals[0].idMeal}`);
     }
-
-    if (dataFromApi.drinks.length === 1 && page === 'Drinks') {
+    if (page === 'Drinks' && dataFromApi.drinks.length === 1) {
       history.push(`/drinks/${dataFromApi.drinks[0].idDrink}`);
     }
   };
