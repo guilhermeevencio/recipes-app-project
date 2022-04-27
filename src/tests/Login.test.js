@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from '../helpers/renderWithRouter';
-import Login from '../pages/Login/Index';
+import Login from '../pages/Login';
 
 const EMAIL_TESTID = 'email-input';
 const VALID_EMAIL = 'teste@teste.com';
