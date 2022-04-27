@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Header from '../../components/Header';
+import AppContext from '../../context/MyContext';
 
 const Foods = () => {
-  console.log('hello world');
+  const { teste } = useContext(AppContext);
+  console.log(teste);
   return (
     <div>
       <Header pageName="Foods" searchEnabled />
