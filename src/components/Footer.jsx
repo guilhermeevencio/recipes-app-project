@@ -10,6 +10,12 @@ const Footer = () => {
   return (
     <footer
       data-testid="footer"
+      style={ {
+        bottom: '0',
+        position: 'fixed',
+        left: '0',
+        zIndex: '2',
+      } }
     >
       <button
         type="button"
