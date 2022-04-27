@@ -15,6 +15,7 @@ import ExploreDrinksIngredients from './pages/ExploreDrinksIngredients';
 import ExploreFoodsByNationalities from './pages/ExploreFoodsNationalities';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
+import FoodDetails from './pages/FoodDetails';
 
 function App() {
   return (
@@ -50,6 +51,11 @@ function App() {
         exact
         path="/favorite-recipes"
         component={ FavoriteRecipes }
+      />
+      <Route
+        exact
+        path="/foods/:foodId"
+        render={ (props) => <FoodDetails { ...props } /> }
       />
     </Switch>
   );
