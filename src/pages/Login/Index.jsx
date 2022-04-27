@@ -39,7 +39,7 @@ function Login() {
     window.localStorage.setItem('mealsToken', '1');
     window.localStorage.setItem('cocktailsToken', '1');
     window.localStorage.setItem('user', JSON.stringify(userObj));
-    history.push('./');
+    history.push('./foods');
   };
 
   return (
