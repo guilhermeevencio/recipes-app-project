@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Switch, Route } from 'react-router-dom';
 import Foods from './pages/Foods';
 import Login from './pages/Login/Index';
-import Profile from './pages/Profile/index';
+import Profile from './pages/Profile';
 import Drinks from './pages/Drinks';
 import Explore from './pages/Explore';
 import ExploreFoods from './pages/ExploreFoods';
