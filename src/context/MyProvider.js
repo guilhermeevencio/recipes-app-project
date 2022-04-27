@@ -4,7 +4,10 @@ import AppContext from './MyContext';
 
 const Provider = ({ children }) => {
   const [teste, setTeste] = useState('teste');
+  const [pageName, setPageName] = useState('');
   const contextValue = {
+    pageName,
+    setPageName,
     teste,
     setTeste,
   };

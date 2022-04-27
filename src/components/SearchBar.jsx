@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
+import AppContext from '../context/MyContext';
 
 const SearchBar = () => {
-  console.log('teste');
+  const { pageName } = useContext(AppContext);
+  const [radioSelected, setRadioSelected] = useState('');
+  console.log(pageName);
+  const handleSelected = (event) => {
+    setRadioSelected(event.currentTarget.value);
+  };
+
   return (
     <div>
+      {console.log(radioSelected)}
       <input
         type="text"
         data-testid="search-input"
@@ -14,6 +22,10 @@ const SearchBar = () => {
           type="radio"
           data-testid="ingredient-search-radio"
           id="ingredient-search-radio"
+          name="filter"
+          value="Ingredient"
+          defaultChecked
+          onChange={ handleSelected }
         />
       </label>
       <label htmlFor="name-search-radio">
@@ -22,6 +34,9 @@ const SearchBar = () => {
           type="radio"
           data-testid="name-search-radio"
           id="name-search-radio"
+          name="filter"
+          value="Name"
+          onChange={ handleSelected }
         />
       </label>
       <label htmlFor="first-letter-search-radio">
@@ -30,6 +45,9 @@ const SearchBar = () => {
           type="radio"
           data-testid="first-letter-search-radio"
           id="first-letter-search-radio"
+          name="filter"
+          value="First Letter"
+          onChange={ handleSelected }
         />
       </label>
       <button

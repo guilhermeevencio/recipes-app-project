@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import AppContext from '../../context/MyContext';
 
 function Login() {
+  const { setPageName } = useContext(AppContext);
   const [email, setEmail] = useState('');
   const [isDisabled, setIsDisabled] = useState(false);
   const [password, setPassword] = useState('');
@@ -39,6 +41,7 @@ function Login() {
     window.localStorage.setItem('mealsToken', '1');
     window.localStorage.setItem('cocktailsToken', '1');
     window.localStorage.setItem('user', JSON.stringify(userObj));
+    setPageName('Foods');
     history.push('./foods');
   };
 
