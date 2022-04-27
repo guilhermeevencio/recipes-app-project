@@ -50,6 +50,9 @@ const SearchBar = (props) => {
     if (page === 'Foods') {
       url = 'https://www.themealdb.com/api/json/v1/1/';
     }
+    if (page === 'Drinks') {
+      url = 'https://www.thecocktaildb.com/api/json/v1/1/';
+    }
     const fullUrl = url + endpoint + searchInputValue;
     const dataFromApi = await fetchFromApi(fullUrl);
     setDataFromApiSearch(dataFromApi);
