@@ -62,6 +62,10 @@ const SearchBar = (props) => {
     if (dataFromApi.meals.length === 1 && page === 'Foods') {
       history.push(`/foods/${dataFromApi.meals[0].idMeal}`);
     }
+
+    if (dataFromApi.drinks.length === 1 && page === 'Drinks') {
+      history.push(`/drinks/${dataFromApi.drinks[0].idDrink}`);
+    }
   };
 
   return (

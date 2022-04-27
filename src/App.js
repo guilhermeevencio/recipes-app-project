@@ -16,6 +16,7 @@ import ExploreFoodsByNationalities from './pages/ExploreFoodsNationalities';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import FoodDetails from './pages/FoodDetails';
+import DrinksDetails from './pages/DrinksDetails';
 
 function App() {
   return (
@@ -56,6 +57,11 @@ function App() {
         exact
         path="/foods/:foodId"
         render={ (props) => <FoodDetails { ...props } /> }
+      />
+      <Route
+        exact
+        path="/drinks/:drinkId"
+        render={ (props) => <DrinksDetails { ...props } /> }
       />
     </Switch>
   );
