@@ -45,7 +45,7 @@ const Header = (props) => {
           </button>
         )}
       {searchIsEnabled
-        && <SearchBar /> }
+        && <SearchBar page={ pageName } /> }
     </header>
   );
 };

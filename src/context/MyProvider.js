@@ -4,10 +4,13 @@ import AppContext from './MyContext';
 
 const Provider = ({ children }) => {
   const [teste, setTeste] = useState('teste');
-  const [pageName, setPageName] = useState('');
+  const [pageName, setPageName] = useState('Food');
+  const [dataFromApiSearch, setDataFromApiSearch] = useState({});
   const contextValue = {
     pageName,
     setPageName,
+    dataFromApiSearch,
+    setDataFromApiSearch,
     teste,
     setTeste,
   };
