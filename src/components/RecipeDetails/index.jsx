@@ -1,12 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteheart from '../../images/whiteHeartIcon.svg';
+import fetchFromApi from '../../services/fetchFromApi';
+import './styles.css';
 
 const RecipeDetails = (props) => {
   const { pageName, recipe } = props;
+
+  const [recomendations, setRecomentations] = useState();
+
+  useEffect(() => {
+    const receiveDataFromApi = async () => {
+      const recipes = await fetchFromApi(recipe.recomendationUrl);
+      const numberOfRecomendations = 6;
+      const sixRecomentations = recipes.drinks.splice(0, numberOfRecomendations);
+      setRecomentations(sixRecomentations);
+    };
+    receiveDataFromApi();
+  }, [recipe]);
+
   return (
-    <div>
+    <div className="recipe-details-container">
       <img
         src={ recipe.strThumb }
         width="400px"

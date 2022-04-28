@@ -32,6 +32,7 @@ const FoodDetails = (props) => {
         videoStr: meals[0].strYoutube,
         recomendations: meals[0].strDrinkAlternate,
         measures: measureArr,
+        recomendationUrl: 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=',
         page: 'foods' };
       setRecipeItem(recipeObj);
       return recipeObj;

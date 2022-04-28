@@ -29,7 +29,8 @@ const DrinksDetails = (props) => {
         videoStr: drinks[0].strYoutube,
         recomendations: drinks[0].strDrinkAlternate,
         measures: measureArr,
-        page: 'deinks' };
+        recomendationUrl: 'https://www.themealdb.com/api/json/v1/1/search.php?s=',
+        page: 'drinks' };
       setRecipeItem(recipeObj);
       return recipeObj;
     };
