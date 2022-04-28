@@ -1,39 +1,49 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import shareIcon from '../../images/shareIcon.svg';
+import whiteheart from '../../images/whiteHeartIcon.svg';
 
 const RecipeDetails = (props) => {
-  const { pageName } = props;
+  const { pageName, recipe } = props;
   return (
     <div>
-      <img src="" alt="Foto da receita" data-testid="recipe-photo" />
-      <h1 data-testid="recipe-title">
-        Recipe title
-      </h1>
+      <img
+        src={ recipe.strThumb }
+        width="400px"
+        alt="Foto da receita"
+        data-testid="recipe-photo"
+      />
+      <h2 data-testid="recipe-title">
+        { recipe.str }
+      </h2>
+      <h3 data-testid="recipe-category">{ recipe.category }</h3>
       <button
         type="button"
         data-testid="share-btn"
       >
-        compartilhar
+        <img src={ shareIcon } alt="Share" />
       </button>
       <button
         type="button"
         data-testid="favorite-btn"
       >
-        favoritos
+        <img src={ whiteheart } alt="Favoritos" />
       </button>
-      <p data-testid="recipe-category">
-        Lorem ipsum dolor, sit amet consectetur
-        adipisicing elit. Dicta magni repellendus tempora repellat
-        ducimus ipsum sint unde accusantium, soluta omnis.
-        Voluptatibus quam in labore placeat debitis, provident sint accusantium veritatis.
-      </p>
-      <h3 data-testid="instructions">Instruções</h3>
+      <h3>Ingredientes</h3>
       <ul>
-        <li data-testid="0-ingredient-name-and-measure">1 dasffasdf</li>
-        <li>2 gsdhgsgds</li>
-        <li>3 fbsgbgsdg</li>
-        <li>4 dasfsdfg </li>
+        {recipe.ingredients.filter((ing) => !!ing).map((ing, index) => (
+          <li
+            key={ index }
+            data-testid={ `${index}-ingredient-name-and-measure` }
+          >
+            { `${ing} - ${recipe.measures[Number(index)]}` }
+          </li>
+        ))}
       </ul>
+      <h3>Instruções</h3>
+      <p data-testid="instructions">
+        { recipe.instructions }
+      </p>
       {pageName === 'Foods'
         && (
           <video
