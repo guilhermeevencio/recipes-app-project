@@ -77,6 +77,9 @@ const SearchBar = (props) => {
     }
     const fullUrl = url + endpoint + searchInputValue;
     const dataFromApi = await fetchFromApi(fullUrl);
+    if (dataFromApi.meals === null || dataFromApi.drinks === null) {
+      return global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    }
     setDataFromApiSearch(dataFromApi);
     if (page === 'Foods' && dataFromApi.meals.length === 1) {
       history.push(`/foods/${dataFromApi.meals[0].idMeal}`);
