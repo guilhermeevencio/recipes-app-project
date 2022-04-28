@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import RecipeCards from '../../components/RecipeCards';
-import CategorieButton from '../../components/CategorieBotton';
+import CategoryButton from '../../components/CategoryButton';
 import { searchDrinksByNameAPI, drinkCategoriesAPI } from '../../services/fetchFromApi';
 
 const FOR = 4;
@@ -34,8 +34,8 @@ const Drinks = () => {
   return (
     <div>
       <Header pageName="Drinks" searchEnabled />
-      {categories.map((categorie) => (
-        <CategorieButton categorie={ categorie } key={ categorie } />))}
+      {categories.map((category) => (
+        <CategoryButton category={ category } key={ category } />))}
       {cards && <RecipeCards cardData={ cards } />}
       <Footer pageName="Drinks" />
     </div>
