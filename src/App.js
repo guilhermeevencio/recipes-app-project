@@ -4,7 +4,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Switch, Route } from 'react-router-dom';
 import Foods from './pages/Foods';
-import Login from './pages/Login/Index';
+import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Drinks from './pages/Drinks';
 import Explore from './pages/Explore';
@@ -15,6 +15,8 @@ import ExploreDrinksIngredients from './pages/ExploreDrinksIngredients';
 import ExploreFoodsByNationalities from './pages/ExploreFoodsNationalities';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
+import FoodDetails from './pages/FoodDetails';
+import DrinksDetails from './pages/DrinksDetails';
 
 function App() {
   return (
@@ -50,6 +52,16 @@ function App() {
         exact
         path="/favorite-recipes"
         component={ FavoriteRecipes }
+      />
+      <Route
+        exact
+        path="/foods/:foodId"
+        render={ (props) => <FoodDetails { ...props } /> }
+      />
+      <Route
+        exact
+        path="/drinks/:drinkId"
+        render={ (props) => <DrinksDetails { ...props } /> }
       />
     </Switch>
   );
