@@ -2,8 +2,8 @@ import React, { useContext, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import AppContext from '../../context/MyContext';
-import fetchFromApi from '../../services/fetchFromApi';
-import RecipeCard from '../RecipeCard';
+import { fetchFromApi } from '../../services/fetchFromApi';
+import RecipeCards from '../RecipeCards';
 
 const FIRST_LETTER = 'First Letter';
 
@@ -143,7 +143,7 @@ const SearchBar = (props) => {
           Search
         </button>
       </div>
-      {dataFromApiSearch && <RecipeCard cardData={ cardData } />}
+      {dataFromApiSearch && <RecipeCards cardData={ cardData } />}
     </div>
   );
 };

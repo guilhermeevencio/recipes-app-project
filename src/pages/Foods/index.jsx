@@ -1,14 +1,42 @@
-import React, { useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header';
-import AppContext from '../../context/MyContext';
 import Footer from '../../components/Footer';
+import RecipeCards from '../../components/RecipeCards';
+import CategorieButton from '../../components/CategorieBotton';
+import { searchMealByNameAPI, foodCategoriesAPI } from '../../services/fetchFromApi';
+
+const FOR = 4;
 
 const Foods = () => {
-  const { teste } = useContext(AppContext);
-  console.log(teste);
+  const [cards, setCards] = useState([]);
+  const [categories, setCategories] = useState([]);
+
+  const fetchMeals = async () => {
+    const resultsMeal = await searchMealByNameAPI();
+    const newResults = resultsMeal.map(({ idMeal, strMealThumb, strMeal }) => (
+      { id: idMeal, strThumb: strMealThumb, str: strMeal }
+    ));
+    setCards(newResults);
+  };
+
+  const fetchCaregories = async () => {
+    const resultsCaregorie = await foodCategoriesAPI();
+    const newResultsCaregorie = resultsCaregorie.filter((_e, index) => index <= FOR)
+      .map(({ strCategory }) => strCategory);
+    setCategories(newResultsCaregorie);
+  };
+
+  useEffect(() => {
+    fetchMeals();
+    fetchCaregories();
+  }, []);
+
   return (
     <div>
       <Header pageName="Foods" searchEnabled />
+      {categories.map((categorie) => (
+        <CategorieButton categorie={ categorie } key={ categorie } />))}
+      {cards && <RecipeCards cardData={ cards } />}
       <Footer pageName="Foods" />
     </div>
   );
