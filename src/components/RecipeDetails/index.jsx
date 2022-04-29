@@ -11,8 +11,24 @@ const RecipeDetails = (props) => {
 
   const [recomendations, setRecomentations] = useState();
   const [isADoneRecipe, setIsADoneRecipe] = useState(false);
+  // const [isInProgress, setIsInProgress] = useState(false);
 
   useEffect(() => {
+    const isDoneRecipe = JSON.parse(window.localStorage.getItem('doneRecipes'));
+    if (isDoneRecipe) {
+      setIsADoneRecipe(isDoneRecipe.some(({ id }) => id === recipe.id));
+    }
+
+    // const isInProgressRecipes = JSON
+    //   .parse(window.localStorage.getItem('inProgressRecipes'));
+
+    // const inProgressId = Object.values(isInProgressRecipes)
+    //   .reduce((acc, obj) => [...acc, ...Object.keys(obj)], []);
+
+    // if (isInProgressRecipes) {
+    //   setIsInProgress(inProgressId.some((id) => id === recipe.id));
+    // }
+
     const receiveDataFromApi = async () => {
       const recipes = await fetchFromApi(recipe.recomendationUrl);
       const numberOfRecomendations = 6;
@@ -20,12 +36,7 @@ const RecipeDetails = (props) => {
         const sixRecomentations = recipes.drinks.splice(0, numberOfRecomendations);
         const result = sixRecomentations
           .map(({ idDrink, strDrinkThumb, strDrink }) => (
-            {
-              id: idDrink,
-              strThumb: strDrinkThumb,
-              str: strDrink,
-              page: 'drinks',
-            }
+            { id: idDrink, strThumb: strDrinkThumb, str: strDrink, page: 'drinks' }
           ));
         setRecomentations(result);
       }
@@ -33,20 +44,10 @@ const RecipeDetails = (props) => {
         const sixRecomentations = recipes.meals.splice(0, numberOfRecomendations);
         const result = sixRecomentations
           .map(({ idMeal, strMealThumb, strMeal }) => (
-            {
-              id: idMeal,
-              strThumb: strMealThumb,
-              str: strMeal,
-              page: 'foods',
-            }
+            { id: idMeal, strThumb: strMealThumb, str: strMeal, page: 'foods' }
           ));
         setRecomentations(result);
       }
-      const isDoneRecipe = JSON.parse(window.localStorage.getItem('doneRecipes'));
-      if (isDoneRecipe) {
-        setIsADoneRecipe(isDoneRecipe.some(({ id }) => id === recipe.id));
-      }
-      // setIsADoneRecipe(isDoneRecipe.some(({ id }) => id === recipe.id));
     };
     receiveDataFromApi();
   }, [pageName, recipe]);
@@ -136,7 +137,7 @@ const RecipeDetails = (props) => {
             type="button"
             data-testid="start-recipe-btn"
           >
-            Iniciar receita
+            Start Recipe
           </button>
         )}
     </div>

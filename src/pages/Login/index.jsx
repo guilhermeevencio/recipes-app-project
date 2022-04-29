@@ -42,6 +42,11 @@ function Login() {
     window.localStorage.setItem('cocktailsToken', '1');
     window.localStorage.setItem('user', JSON.stringify(userObj));
     window.localStorage.setItem('doneRecipes', JSON.stringify([{}]));
+    window.localStorage
+      .setItem('inProgressRecipes', JSON
+        .stringify({
+          cocktails: {}, meals: { 52768: ['ingrediente 1', 'ingrediente 2'] },
+        }));
     setPageName('Foods');
     history.push('./foods');
   };
