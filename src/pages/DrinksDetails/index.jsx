@@ -9,6 +9,7 @@ const DrinksDetails = (props) => {
   useEffect(() => {
     const receivedDataWithItemId = async () => {
       const { drinks } = await fetchWithId(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${drinkId}`);
+      console.log(drinks[0]);
       const ingredientsObj = Object
         .fromEntries(Object.entries(drinks[0])
           .filter(([key]) => key.includes('Ingredient')));
@@ -30,6 +31,9 @@ const DrinksDetails = (props) => {
         recomendations: drinks[0].strDrinkAlternate,
         measures: measureArr,
         recomendationUrl: 'https://www.themealdb.com/api/json/v1/1/search.php?s=',
+        alcoholic: drinks[0].strAlcoholic,
+        nationality: '',
+        type: 'drink',
         page: 'drinks' };
       setRecipeItem(recipeObj);
       return recipeObj;

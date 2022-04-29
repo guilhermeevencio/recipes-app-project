@@ -12,6 +12,7 @@ const FoodDetails = (props) => {
   useEffect(() => {
     const receivedDataWithItemId = async () => {
       const { meals } = await fetchWithId(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${foodId}`);
+      console.log(meals[0]);
       // codigo utilizado para dividor os arrays => https://masteringjs.io/tutorials/fundamentals/filter-key
       const ingredientsObj = Object
         .fromEntries(Object.entries(meals[0])
@@ -33,6 +34,9 @@ const FoodDetails = (props) => {
         recomendations: meals[0].strDrinkAlternate,
         measures: measureArr,
         recomendationUrl: 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=',
+        alcoholic: '',
+        nationality: meals[0].strArea,
+        type: 'food',
         page: 'foods' };
       setRecipeItem(recipeObj);
       return recipeObj;

@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteheart from '../../images/whiteHeartIcon.svg';
-import fetchFromApi from '../../services/fetchFromApi';
+import blackHeart from '../../images/blackHeartIcon.svg';
+// import fetchFromApi from '../../services/fetchFromApi';
+import fetchRecomendations from '../../services/fetchRecommendations';
 import './styles.css';
 
 const RecipeDetails = (props) => {
@@ -12,6 +14,7 @@ const RecipeDetails = (props) => {
   const [recomendations, setRecomentations] = useState();
   const [isADoneRecipe, setIsADoneRecipe] = useState(false);
   const [isLinkCopied, setIsLinkCopied] = useState(false);
+  const [isFavorite, setisFavorite] = useState(false);
   // const [isInProgress, setIsInProgress] = useState(false);
 
   useEffect(() => {
@@ -20,6 +23,13 @@ const RecipeDetails = (props) => {
       setIsADoneRecipe(isDoneRecipe.some(({ id }) => id === recipe.id));
     }
 
+    const favoriteItems = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (favoriteItems && favoriteItems.some(({ id }) => id === recipe.id)) {
+      setisFavorite(true);
+    }
+  }, [recipe.id]);
+
+  useEffect(() => {
     // const isInProgressRecipes = JSON
     //   .parse(window.localStorage.getItem('inProgressRecipes'));
 
@@ -31,27 +41,41 @@ const RecipeDetails = (props) => {
     // }
 
     const receiveDataFromApi = async () => {
-      const recipes = await fetchFromApi(recipe.recomendationUrl);
-      const numberOfRecomendations = 6;
-      if (pageName === 'Foods') {
-        const sixRecomentations = recipes.drinks.splice(0, numberOfRecomendations);
-        const result = sixRecomentations
-          .map(({ idDrink, strDrinkThumb, strDrink }) => (
-            { id: idDrink, strThumb: strDrinkThumb, str: strDrink, page: 'drinks' }
-          ));
-        setRecomentations(result);
-      }
-      if (pageName === 'Drinks') {
-        const sixRecomentations = recipes.meals.splice(0, numberOfRecomendations);
-        const result = sixRecomentations
-          .map(({ idMeal, strMealThumb, strMeal }) => (
-            { id: idMeal, strThumb: strMealThumb, str: strMeal, page: 'foods' }
-          ));
-        setRecomentations(result);
-      }
+      const results = await fetchRecomendations(recipe.recomendationUrl, pageName);
+      setRecomentations(results);
     };
     receiveDataFromApi();
   }, [pageName, recipe]);
+
+  const handleFavoriteRecipes = () => {
+    const favoriteItems = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    console.log(favoriteItems);
+    const filteredFavorites = favoriteItems
+      .filter(({ id }) => id !== recipe.id);
+
+    switch (isFavorite) {
+    case true:
+      localStorage.setItem('favoriteRecipes', JSON.stringify(filteredFavorites));
+      setisFavorite(false);
+      break;
+    default:
+      setisFavorite(true);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(
+        [
+          ...favoriteItems,
+          {
+            id: recipe.id,
+            type: recipe.type,
+            nationality: recipe.nationality,
+            category: recipe.category,
+            alcoholicOrNot: recipe.alcoholic,
+            name: recipe.str,
+            image: recipe.strThumb,
+          }],
+      ));
+      break;
+    }
+  };
 
   return (
     <div className="recipe-details-container">
@@ -78,8 +102,9 @@ const RecipeDetails = (props) => {
       <button
         type="button"
         data-testid="favorite-btn"
+        onClick={ handleFavoriteRecipes }
       >
-        <img src={ whiteheart } alt="Favoritos" />
+        <img src={ !isFavorite ? whiteheart : blackHeart } alt="Favoritos" />
       </button>
       {isLinkCopied && <p>Link copied!</p>}
       <h3>Ingredientes</h3>
@@ -100,7 +125,7 @@ const RecipeDetails = (props) => {
       {pageName === 'Foods'
         && (
           <video
-            src="https://www.youtube.com/watch?v=W0bEL93tt4k"
+            src=""
             data-testid="video"
           >
             <track
