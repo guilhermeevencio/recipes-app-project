@@ -133,12 +133,13 @@ const RecipeDetails = (props) => {
       </section>
       {!isADoneRecipe
         && (
-          <button
+          <Link
+            to={ `/${recipe.page}/${recipe.id}/in-progress` }
             type="button"
             data-testid="start-recipe-btn"
           >
             Start Recipe
-          </button>
+          </Link>
         )}
     </div>
   );
