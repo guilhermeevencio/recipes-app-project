@@ -3,20 +3,28 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import RecipeCards from '../../components/RecipeCards';
 import CategoryButton from '../../components/CategoryButton';
-import { searchDrinksByNameAPI, drinkCategoriesAPI } from '../../services/fetchFromApi';
+import {
+  searchDrinksByNameAPI,
+  drinkCategoriesAPI,
+  filterByDrinkCategoryAPI,
+} from '../../services/fetchFromApi';
 
 const FOR = 4;
 
 const Drinks = () => {
-  const [cards, setCards] = useState([]);
+  const [cardData, setCardData] = useState([]);
   const [categories, setCategories] = useState([]);
+
+  const transformDrinkArrToDefaultArr = (arr) => {
+    const newArr = arr.map(({ idDrink, strDrinkThumb, strDrink }) => (
+      { id: idDrink, strThumb: strDrinkThumb, str: strDrink }));
+    return newArr;
+  };
 
   const fetchDrinks = async () => {
     const results = await searchDrinksByNameAPI();
-    const newResults = results.map(({ idDrink, strDrinkThumb, strDrink }) => (
-      { id: idDrink, strThumb: strDrinkThumb, str: strDrink }
-    ));
-    setCards(newResults);
+    const newResults = transformDrinkArrToDefaultArr(results);
+    setCardData(newResults);
   };
 
   const fetchCaregories = async () => {
@@ -24,6 +32,12 @@ const Drinks = () => {
     const newResultsCaregorie = resultsCaregorie.filter((_e, index) => index <= FOR)
       .map(({ strCategory }) => strCategory);
     setCategories(newResultsCaregorie);
+  };
+
+  const fetchFilteredByCaregoryAndStateIt = async (category) => {
+    const result = await filterByDrinkCategoryAPI(category);
+    const newResult = transformDrinkArrToDefaultArr(result);
+    setCardData(newResult);
   };
 
   useEffect(() => {
@@ -35,8 +49,12 @@ const Drinks = () => {
     <div>
       <Header pageName="Drinks" searchEnabled />
       {categories.map((category) => (
-        <CategoryButton category={ category } key={ category } />))}
-      {cards && <RecipeCards cardData={ cards } />}
+        <CategoryButton
+          category={ category }
+          key={ category }
+          callBack={ fetchFilteredByCaregoryAndStateIt }
+        />))}
+      {cardData && <RecipeCards cardData={ cardData } />}
       <Footer pageName="Drinks" />
     </div>
   );

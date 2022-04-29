@@ -3,40 +3,59 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import RecipeCards from '../../components/RecipeCards';
 import CategoryButton from '../../components/CategoryButton';
-import { searchMealByNameAPI, foodCategoriesAPI } from '../../services/fetchFromApi';
+
+import {
+  searchMealByNameAPI,
+  foodCategoriesAPI,
+  filterByMealCategoryAPI,
+} from '../../services/fetchFromApi';
 
 const FOR = 4;
 
 const Foods = () => {
-  const [cards, setCards] = useState([]);
+  const [cardData, setCardData] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  const fetchMeals = async () => {
-    const resultsMeal = await searchMealByNameAPI();
-    const newResults = resultsMeal.map(({ idMeal, strMealThumb, strMeal }) => (
-      { id: idMeal, strThumb: strMealThumb, str: strMeal }
-    ));
-    setCards(newResults);
+  const transformMealArrToDefaultArr = (arr) => {
+    const newArr = arr.map(({ idMeal, strMealThumb, strMeal }) => (
+      { id: idMeal, strThumb: strMealThumb, str: strMeal }));
+    return newArr;
   };
 
-  const fetchCaregories = async () => {
-    const resultsCaregorie = await foodCategoriesAPI();
-    const newResultsCaregorie = resultsCaregorie.filter((_e, index) => index <= FOR)
+  const fetchMealsAndStateIt = async () => {
+    const result = await searchMealByNameAPI();
+    const newResults = transformMealArrToDefaultArr(result);
+    setCardData(newResults);
+  };
+
+  const fetchCaregoriesAndStateIt = async () => {
+    const result = await foodCategoriesAPI();
+    const newResult = result.filter((_e, index) => index <= FOR)
       .map(({ strCategory }) => strCategory);
-    setCategories(newResultsCaregorie);
+    setCategories(newResult);
+  };
+
+  const fetchFilteredByCaregoryAndStateIt = async (category) => {
+    const result = await filterByMealCategoryAPI(category);
+    const newResult = transformMealArrToDefaultArr(result);
+    setCardData(newResult);
   };
 
   useEffect(() => {
-    fetchMeals();
-    fetchCaregories();
+    fetchMealsAndStateIt();
+    fetchCaregoriesAndStateIt();
   }, []);
 
   return (
     <div>
       <Header pageName="Foods" searchEnabled />
       {categories.map((category) => (
-        <CategoryButton category={ category } key={ category } />))}
-      {cards && <RecipeCards cardData={ cards } />}
+        <CategoryButton
+          category={ category }
+          key={ category }
+          callBack={ fetchFilteredByCaregoryAndStateIt }
+        />))}
+      {cardData && <RecipeCards cardData={ cardData } />}
       <Footer pageName="Foods" />
     </div>
   );
