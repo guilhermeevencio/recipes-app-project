@@ -1,14 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function CategoryButton({ category, callBack }) {
+function CategoryButton(props) {
+  const { category, callBack, callBack2, currentCategoryFilter,
+    setCurrentCategoryFilter } = props;
+
+  const dynamicToggle = () => {
+    const obj = {
+      noFilter: () => { callBack(category); setCurrentCategoryFilter(category); },
+      [category]: () => { callBack2(category); setCurrentCategoryFilter('noFilter'); },
+    };
+    if (obj[currentCategoryFilter]) obj[currentCategoryFilter]();
+    else obj.noFilter();
+  };
+
   return (
     <button
       type="button"
       data-testid={ `${category}-category-filter` }
-      onClick={
-        () => callBack(category)
-      }
+      onClick={ dynamicToggle }
     >
       {category}
     </button>

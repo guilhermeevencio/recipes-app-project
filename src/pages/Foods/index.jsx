@@ -15,6 +15,7 @@ const FOR = 4;
 const Foods = () => {
   const [cardData, setCardData] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [currentCategoryFilter, setCurrentCategoryFilter] = useState('noFilter');
 
   const transformMealArrToDefaultArr = (arr) => {
     const newArr = arr.map(({ idMeal, strMealThumb, strMeal }) => (
@@ -54,6 +55,9 @@ const Foods = () => {
           category={ category }
           key={ category }
           callBack={ fetchFilteredByCaregoryAndStateIt }
+          callBack2={ fetchMealsAndStateIt }
+          currentCategoryFilter={ currentCategoryFilter }
+          setCurrentCategoryFilter={ setCurrentCategoryFilter }
         />))}
       {cardData && <RecipeCards cardData={ cardData } />}
       <Footer pageName="Foods" />
