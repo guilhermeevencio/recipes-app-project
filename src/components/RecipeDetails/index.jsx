@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteheart from '../../images/whiteHeartIcon.svg';
 import fetchFromApi from '../../services/fetchFromApi';
@@ -14,11 +15,35 @@ const RecipeDetails = (props) => {
     const receiveDataFromApi = async () => {
       const recipes = await fetchFromApi(recipe.recomendationUrl);
       const numberOfRecomendations = 6;
-      const sixRecomentations = recipes.drinks.splice(0, numberOfRecomendations);
-      setRecomentations(sixRecomentations);
+      if (pageName === 'Foods') {
+        const sixRecomentations = recipes.drinks.splice(0, numberOfRecomendations);
+        const result = sixRecomentations
+          .map(({ idDrink, strDrinkThumb, strDrink }) => (
+            {
+              id: idDrink,
+              strThumb: strDrinkThumb,
+              str: strDrink,
+              page: 'drinks',
+            }
+          ));
+        setRecomentations(result);
+      }
+      if (pageName === 'Drinks') {
+        const sixRecomentations = recipes.meals.splice(0, numberOfRecomendations);
+        const result = sixRecomentations
+          .map(({ idMeal, strMealThumb, strMeal }) => (
+            {
+              id: idMeal,
+              strThumb: strMealThumb,
+              str: strMeal,
+              page: 'foods',
+            }
+          ));
+        setRecomentations(result);
+      }
     };
     receiveDataFromApi();
-  }, [recipe]);
+  }, [pageName, recipe]);
 
   return (
     <div className="recipe-details-container">
@@ -46,7 +71,7 @@ const RecipeDetails = (props) => {
       </button>
       <h3>Ingredientes</h3>
       <ul>
-        {recipe.ingredients.filter((ing) => !!ing).map((ing, index) => (
+        {recipe.ingredients.filter((ing) => ing).map((ing, index) => (
           <li
             key={ index }
             data-testid={ `${index}-ingredient-name-and-measure` }
@@ -74,8 +99,30 @@ const RecipeDetails = (props) => {
           </video>)}
       <section>
         <h3> Receitas recomendadas</h3>
-        <div data-testid="0-recomendation-card">recomandada 1</div>
-        <div data-testid="1-recomendation-card">recomandada 1</div>
+        <div className="carousel-container">
+          {recomendations
+            && recomendations.map(({ id, strThumb, str, page }, index) => (
+              <Link
+                to={ `/${page}/${id}` }
+                key={ id }
+                id={ id }
+                className="recomendation-card"
+                data-testid={ `${index}-recomendation-card` }
+              >
+                <div
+                  data-testid={ `${index}-recomendation-title` }
+                >
+                  {str}
+                </div>
+                <img
+                  width={ 70 }
+                  src={ strThumb }
+                  alt={ str }
+                  data-testid={ `${index}-card-img` }
+                />
+              </Link>
+            ))}
+        </div>
       </section>
       <button
         type="button"

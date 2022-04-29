@@ -1,3 +1,15 @@
-.recipe-details-container {
-  font-family: ' Franklin Gothic Medium' , sans-serif;
+.carousel-container {
+
+  --spacer: 1rem;
+  border: 1px solid red;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.recomendation-card {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 45vw;
 }
