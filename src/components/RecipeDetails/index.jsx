@@ -11,6 +11,7 @@ const RecipeDetails = (props) => {
 
   const [recomendations, setRecomentations] = useState();
   const [isADoneRecipe, setIsADoneRecipe] = useState(false);
+  const [isLinkCopied, setIsLinkCopied] = useState(false);
   // const [isInProgress, setIsInProgress] = useState(false);
 
   useEffect(() => {
@@ -67,6 +68,10 @@ const RecipeDetails = (props) => {
       <button
         type="button"
         data-testid="share-btn"
+        onClick={ () => {
+          navigator.clipboard.writeText(`http://localhost:3000/${recipe.page}/${recipe.id}`);
+          setIsLinkCopied(true);
+        } }
       >
         <img src={ shareIcon } alt="Share" />
       </button>
@@ -76,6 +81,7 @@ const RecipeDetails = (props) => {
       >
         <img src={ whiteheart } alt="Favoritos" />
       </button>
+      {isLinkCopied && <p>Link copied!</p>}
       <h3>Ingredientes</h3>
       <ul>
         {recipe.ingredients.filter((ing) => ing).map((ing, index) => (
