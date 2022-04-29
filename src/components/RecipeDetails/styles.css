@@ -13,3 +13,8 @@
   justify-content: center;
   width: 45vw;
 }
+
+[ data-testid = 'start-recipe-btn' ] {
+  bottom: 0;
+  position: fixed;
+}
