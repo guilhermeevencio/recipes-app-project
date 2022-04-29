@@ -50,6 +50,15 @@ const Foods = () => {
   return (
     <div>
       <Header pageName="Foods" searchEnabled />
+      <button
+        type="button"
+        data-testid="All-category-filter"
+        onClick={
+          () => { fetchMealsAndStateIt(); setCurrentCategoryFilter('noFilter'); }
+        }
+      >
+        All
+      </button>
       {categories.map((category) => (
         <CategoryButton
           category={ category }

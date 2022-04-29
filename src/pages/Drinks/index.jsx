@@ -22,13 +22,13 @@ const Drinks = () => {
     return newArr;
   };
 
-  const fetchDrinks = async () => {
+  const fetchDrinksAndStateIt = async () => {
     const results = await searchDrinksByNameAPI();
     const newResults = transformDrinkArrToDefaultArr(results);
     setCardData(newResults);
   };
 
-  const fetchCaregories = async () => {
+  const fetchCaregoriesAndStateIt = async () => {
     const resultsCaregorie = await drinkCategoriesAPI();
     const newResultsCaregorie = resultsCaregorie.filter((_e, index) => index <= FOR)
       .map(({ strCategory }) => strCategory);
@@ -42,19 +42,28 @@ const Drinks = () => {
   };
 
   useEffect(() => {
-    fetchDrinks();
-    fetchCaregories();
+    fetchDrinksAndStateIt();
+    fetchCaregoriesAndStateIt();
   }, []);
 
   return (
     <div>
       <Header pageName="Drinks" searchEnabled />
+      <button
+        type="button"
+        data-testid="All-category-filter"
+        onClick={
+          () => { fetchDrinksAndStateIt(); setCurrentCategoryFilter('noFilter'); }
+        }
+      >
+        All
+      </button>
       {categories.map((category) => (
         <CategoryButton
           category={ category }
           key={ category }
           callBack={ fetchFilteredByCaregoryAndStateIt }
-          callBack2={ fetchDrinks }
+          callBack2={ fetchDrinksAndStateIt }
           currentCategoryFilter={ currentCategoryFilter }
           setCurrentCategoryFilter={ setCurrentCategoryFilter }
         />))}
