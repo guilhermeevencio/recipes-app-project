@@ -10,6 +10,7 @@ const RecipeDetails = (props) => {
   const { pageName, recipe } = props;
 
   const [recomendations, setRecomentations] = useState();
+  const [isADoneRecipe, setIsADoneRecipe] = useState(false);
 
   useEffect(() => {
     const receiveDataFromApi = async () => {
@@ -41,6 +42,11 @@ const RecipeDetails = (props) => {
           ));
         setRecomentations(result);
       }
+      const isDoneRecipe = JSON.parse(window.localStorage.getItem('doneRecipes'));
+      if (isDoneRecipe) {
+        setIsADoneRecipe(isDoneRecipe.some(({ id }) => id === recipe.id));
+      }
+      // setIsADoneRecipe(isDoneRecipe.some(({ id }) => id === recipe.id));
     };
     receiveDataFromApi();
   }, [pageName, recipe]);
@@ -124,12 +130,15 @@ const RecipeDetails = (props) => {
             ))}
         </div>
       </section>
-      <button
-        type="button"
-        data-testid="start-recipe-btn"
-      >
-        Iniciar receita
-      </button>
+      {!isADoneRecipe
+        && (
+          <button
+            type="button"
+            data-testid="start-recipe-btn"
+          >
+            Iniciar receita
+          </button>
+        )}
     </div>
   );
 };

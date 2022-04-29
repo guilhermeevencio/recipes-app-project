@@ -41,6 +41,7 @@ function Login() {
     window.localStorage.setItem('mealsToken', '1');
     window.localStorage.setItem('cocktailsToken', '1');
     window.localStorage.setItem('user', JSON.stringify(userObj));
+    window.localStorage.setItem('doneRecipes', JSON.stringify([{}]));
     setPageName('Foods');
     history.push('./foods');
   };
