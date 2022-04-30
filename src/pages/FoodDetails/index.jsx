@@ -12,8 +12,17 @@ const FoodDetails = (props) => {
   useEffect(() => {
     const receivedDataWithItemId = async () => {
       const { meals } = await fetchWithId(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${foodId}`);
-      console.log(meals[0]);
+      const {
+        idMeal,
+        strMeal,
+        strMealThumb,
+        strCategory,
+        strInstructions,
+        strYoutube,
+        strArea } = meals[0];
+
       // codigo utilizado para dividor os arrays => https://masteringjs.io/tutorials/fundamentals/filter-key
+
       const ingredientsObj = Object
         .fromEntries(Object.entries(meals[0])
           .filter(([key]) => key.includes('Ingredient')));
@@ -23,19 +32,19 @@ const FoodDetails = (props) => {
         .fromEntries(Object.entries(meals[0])
           .filter(([key]) => key.includes('Measure')));
       const measureArr = Object.values(measureObj);
+
       const recipeObj = {
-        id: meals[0].idMeal,
-        strThumb: meals[0].strMealThumb,
-        str: meals[0].strMeal,
-        category: meals[0].strCategory,
+        id: idMeal,
+        strThumb: strMealThumb,
+        str: strMeal,
+        category: strCategory,
         ingredients: ingredientsArr,
-        instructions: meals[0].strInstructions,
-        videoStr: meals[0].strYoutube,
-        recomendations: meals[0].strDrinkAlternate,
+        instructions: strInstructions,
+        videoStr: strYoutube,
         measures: measureArr,
         recomendationUrl: 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=',
         alcoholic: '',
-        nationality: meals[0].strArea,
+        nationality: strArea,
         type: 'food',
         page: 'foods' };
       setRecipeItem(recipeObj);
@@ -47,6 +56,17 @@ const FoodDetails = (props) => {
     <div>
       <h3>FoodDetails</h3>
       {recipeItem && <RecipeDetails pageName="Foods" recipe={ recipeItem } />}
+      <video
+        src=""
+        data-testid="video"
+      >
+        <track
+          default
+          kind="captions"
+          srcLang="en"
+          src="/media/examples/friday.vtt"
+        />
+      </video>
     </div>
   );
 };
