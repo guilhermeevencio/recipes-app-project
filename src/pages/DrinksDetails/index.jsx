@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import RecipeDetails from '../../components/RecipeDetails';
 import fetchWithId from '../../services/fetchWithId';
+import handleWithObjectKeys from '../../helpers/RecipeDetailsHelpers';
+import AppContext from '../../context/MyContext';
 
 const DrinksDetails = (props) => {
   const { match: { params: { drinkId } } } = props;
-  const [recipeItem, setRecipeItem] = useState();
+  const { recipeDetails, setRecipeDetails } = useContext(AppContext);
   useEffect(() => {
     const receivedDataWithItemId = async () => {
       const { drinks } = await fetchWithId(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${drinkId}`);
-      console.log(drinks[0]);
       const ingredientsObj = Object
         .fromEntries(Object.entries(drinks[0])
           .filter(([key]) => key.includes('Ingredient')));
@@ -21,29 +22,21 @@ const DrinksDetails = (props) => {
       const measureArr = Object.values(measureObj);
 
       const recipeObj = {
-        id: drinks[0].idDrink,
-        strThumb: drinks[0].strDrinkThumb,
-        str: drinks[0].strDrink,
-        category: drinks[0].strAlcoholic,
+        ...drinks[0],
         ingredients: ingredientsArr,
-        instructions: drinks[0].strInstructions,
-        videoStr: drinks[0].strYoutube,
-        recomendations: drinks[0].strDrinkAlternate,
-        measures: measureArr,
-        recomendationUrl: 'https://www.themealdb.com/api/json/v1/1/search.php?s=',
-        alcoholic: drinks[0].strAlcoholic,
-        nationality: '',
+        measure: measureArr,
         type: 'drink',
-        page: 'drinks' };
-      setRecipeItem(recipeObj);
-      return recipeObj;
+      };
+
+      const refactoredRecipeObj = handleWithObjectKeys(recipeObj);
+      setRecipeDetails(refactoredRecipeObj);
     };
     receivedDataWithItemId();
-  }, [drinkId]);
+  }, [drinkId, setRecipeDetails]);
   return (
     <div>
       DrinksDetails
-      {recipeItem && <RecipeDetails pageName="Drinks" recipe={ recipeItem } />}
+      {recipeDetails && <RecipeDetails />}
     </div>
   );
 };

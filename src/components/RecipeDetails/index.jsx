@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './styles.css';
 import InstructionsCard from '../InstructionsCard';
 import RecipeHeading from '../RecipeHeading';
 import RecomendationRecipes from '../RecomendedRecipes';
+import AppContext from '../../context/MyContext';
 
 const RecipeDetails = () => {
-  // const { pageName, recipe } = props;
-  console.log('teste');
+  const { recipeDetails } = useContext(AppContext);
+  console.log(recipeDetails);
   return (
     <div>
       <RecipeHeading />
