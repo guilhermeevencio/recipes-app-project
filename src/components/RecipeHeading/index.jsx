@@ -51,7 +51,12 @@ const RecipeHeading = () => {
             width="100%"
           />
           <h2 data-testid="recipe-title">{recipeDetails.str}</h2>
-          <p data-testid="recipe-category">{recipeDetails.category}</p>
+          <p
+            data-testid="recipe-category"
+          >
+            {recipeDetails.type === 'food'
+              ? recipeDetails.category : recipeDetails.alcoholic}
+          </p>
           <button
             type="button"
             onClick={ () => {
