@@ -4,19 +4,15 @@ import AppContext from '../../context/MyContext';
 import fetchRecomendations from '../../services/fetchRecommendations';
 
 const RecomendationRecipes = () => {
-  const { recipeDetails } = useContext(AppContext);
+  const { recipeDetails: { recomendationUrl, pageName } } = useContext(AppContext);
   const [recomendationsResuls, setRecomendationsResults] = useState([]);
   useEffect(() => {
-    if (recipeDetails) {
-      const receiveDataFromApi = async () => {
-        const results = await fetchRecomendations(
-          recipeDetails.recomendationUrl, recipeDetails.pageName,
-        );
-        setRecomendationsResults(results);
-      };
-      receiveDataFromApi();
-    }
-  }, [recipeDetails]);
+    const receiveDataFromApi = async () => {
+      const results = await fetchRecomendations(recomendationUrl, pageName);
+      setRecomendationsResults(results);
+    };
+    receiveDataFromApi();
+  }, [pageName, recomendationUrl]);
   return (
     <div className="carousel-container">
       {recomendationsResuls

@@ -5,6 +5,7 @@ import RecomendationRecipes from '../../components/RecomendedRecipes';
 import fetchWithId from '../../services/fetchWithId';
 import handleWithObjectKeys from '../../helpers/RecipeDetailsHelpers';
 import AppContext from '../../context/MyContext';
+import './styles.css';
 
 const FoodDetails = (props) => {
   const { match: { params: { foodId } } } = props;
@@ -68,6 +69,12 @@ const FoodDetails = (props) => {
             data-testid="video"
           />
           <RecomendationRecipes />
+          <button
+            type="button"
+            data-testid="start-recipe-btn"
+          >
+            Start Recipe
+          </button>
         </div>)}
     </div>
   );

@@ -5,6 +5,7 @@ import fetchWithId from '../../services/fetchWithId';
 import handleWithObjectKeys from '../../helpers/RecipeDetailsHelpers';
 import AppContext from '../../context/MyContext';
 import RecomendationRecipes from '../../components/RecomendedRecipes';
+import './styles.css';
 
 const DrinksDetails = (props) => {
   const { match: { params: { drinkId } } } = props;
@@ -37,8 +38,19 @@ const DrinksDetails = (props) => {
   return (
     <div>
       DrinksDetails
-      {recipeDetails && <RecipeDetails />}
-      <RecomendationRecipes />
+      {recipeDetails
+      && (
+        <div>
+          <RecipeDetails />
+          <RecomendationRecipes />
+          <button
+            type="button"
+            data-testid="start-recipe-btn"
+          >
+            Start Recipe
+          </button>
+        </div>
+      )}
     </div>
   );
 };

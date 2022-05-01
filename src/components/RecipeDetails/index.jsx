@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import './styles.css';
 import InstructionsCard from '../InstructionsCard';
 import RecipeHeading from '../RecipeHeading';
 import AppContext from '../../context/MyContext';
@@ -19,12 +18,6 @@ const RecipeDetails = () => {
         </li>
       ))}
       <InstructionsCard />
-      <button
-        type="button"
-        data-testid="start-recipe-btn"
-      >
-        Start Recipe
-      </button>
     </div>
   );
 };
