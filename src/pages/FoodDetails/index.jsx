@@ -6,10 +6,26 @@ import fetchWithId from '../../services/fetchWithId';
 import handleWithObjectKeys from '../../helpers/RecipeDetailsHelpers';
 import AppContext from '../../context/MyContext';
 import StartRecipeButton from '../../components/StartRecipeButton';
+import useLocalStorage from '../../customHooks/useLocalStorage';
 
 const FoodDetails = (props) => {
   const { match: { params: { foodId } } } = props;
-  const { recipeDetails, setRecipeDetails } = useContext(AppContext);
+  const {
+    recipeDetails,
+    setRecipeDetails,
+    recipeStatusInfo,
+    setRecipeStatusInfo } = useContext(AppContext);
+
+  const [value] = useLocalStorage('doneRecipes', []);
+
+  // const newValue = [...value, 'newRecipe'];
+
+  useEffect(() => {
+    setRecipeStatusInfo({
+      ...recipeStatusInfo,
+      isFinished: value.some(({ id }) => id === recipeDetails.id),
+    });
+  }, [value]);
 
   useEffect(() => {
     const receivedDataWithItemId = async () => {
@@ -40,26 +56,15 @@ const FoodDetails = (props) => {
       };
       const refactoredRecipeObj = handleWithObjectKeys(recipeObj);
       setRecipeDetails(refactoredRecipeObj);
-      console.log(meals[0].strYoutube);
     };
     receivedDataWithItemId();
   }, [foodId, setRecipeDetails]);
+
   return (
     <div>
       <h3>FoodDetails</h3>
       {recipeDetails && (
         <div>
-          {/* <video
-            src={ recipeDetails.videoStr }
-            data-testid="video"
-          >
-            <track
-              default
-              kind="captions"
-              srcLang="en"
-              src="/media/examples/friday.vtt"
-            />
-          </video> */}
           <RecipeDetails />
           <iframe
             width="420"
@@ -69,7 +74,7 @@ const FoodDetails = (props) => {
             data-testid="video"
           />
           <RecomendationRecipes />
-          <StartRecipeButton />
+          {!recipeStatusInfo.isFinished && <StartRecipeButton />}
         </div>)}
     </div>
   );

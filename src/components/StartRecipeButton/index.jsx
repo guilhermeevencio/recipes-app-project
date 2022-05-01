@@ -5,7 +5,6 @@ import './styles.css';
 
 const StartRecipeButton = () => {
   const { recipeDetails } = useContext(AppContext);
-  console.log('botao');
   return (
     <Link
       to={ `/${recipeDetails.page}/${recipeDetails.id}/in-progress` }
