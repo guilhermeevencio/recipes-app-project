@@ -6,10 +6,34 @@ import handleWithObjectKeys from '../../helpers/RecipeDetailsHelpers';
 import AppContext from '../../context/MyContext';
 import RecomendationRecipes from '../../components/RecomendedRecipes';
 import StartRecipeButton from '../../components/StartRecipeButton';
+import useLocalStorage from '../../customHooks/useLocalStorage';
 
 const DrinksDetails = (props) => {
   const { match: { params: { drinkId } } } = props;
-  const { recipeDetails, setRecipeDetails } = useContext(AppContext);
+  const {
+    recipeDetails,
+    setRecipeDetails,
+    recipeStatusInfo,
+    setRecipeStatusInfo } = useContext(AppContext);
+
+  const [doneRecipesValue] = useLocalStorage('doneRecipes', []);
+  const [favoriteRecipesValue] = useLocalStorage('favoriteRecipes', []);
+  const [inProgressRecipesValue] = useLocalStorage('inProgressRecipes', {});
+
+  useEffect(() => {
+    if (recipeDetails) {
+      const inProgressId = Object.values(inProgressRecipesValue)
+        .reduce((acc, obj) => [...acc, ...Object.keys(obj)], []);
+
+      setRecipeStatusInfo({
+        ...recipeStatusInfo,
+        isFavorite: favoriteRecipesValue.some(({ id }) => id && id === recipeDetails.id),
+        isFinished: doneRecipesValue.some(({ id }) => id && id === recipeDetails.id),
+        isInProgress: inProgressId.some((id) => id === recipeDetails.id),
+      });
+    }
+  }, [recipeDetails, doneRecipesValue, favoriteRecipesValue, inProgressRecipesValue]);
+
   useEffect(() => {
     const receivedDataWithItemId = async () => {
       const { drinks } = await fetchWithId(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${drinkId}`);

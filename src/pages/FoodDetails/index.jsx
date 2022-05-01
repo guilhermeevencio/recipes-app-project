@@ -16,16 +16,23 @@ const FoodDetails = (props) => {
     recipeStatusInfo,
     setRecipeStatusInfo } = useContext(AppContext);
 
-  const [value] = useLocalStorage('doneRecipes', []);
-
-  // const newValue = [...value, 'newRecipe'];
+  const [doneRecipesValue] = useLocalStorage('doneRecipes', []);
+  const [favoriteRecipesValue] = useLocalStorage('favoriteRecipes', []);
+  const [inProgressRecipesValue] = useLocalStorage('inProgressRecipes', {});
 
   useEffect(() => {
-    setRecipeStatusInfo({
-      ...recipeStatusInfo,
-      isFinished: value.some(({ id }) => id === recipeDetails.id),
-    });
-  }, [value]);
+    if (recipeDetails) {
+      const inProgressId = Object.values(inProgressRecipesValue)
+        .reduce((acc, obj) => [...acc, ...Object.keys(obj)], []);
+
+      setRecipeStatusInfo({
+        ...recipeStatusInfo,
+        isFavorite: favoriteRecipesValue.some(({ id }) => id && id === recipeDetails.id),
+        isFinished: doneRecipesValue.some(({ id }) => id && id === recipeDetails.id),
+        isInProgress: inProgressId.some((id) => id === recipeDetails.id),
+      });
+    }
+  }, [recipeDetails, doneRecipesValue, favoriteRecipesValue, inProgressRecipesValue]);
 
   useEffect(() => {
     const receivedDataWithItemId = async () => {
