@@ -2,21 +2,23 @@ import React, { useContext } from 'react';
 import './styles.css';
 import InstructionsCard from '../InstructionsCard';
 import RecipeHeading from '../RecipeHeading';
-import RecomendationRecipes from '../RecomendedRecipes';
 import AppContext from '../../context/MyContext';
 
 const RecipeDetails = () => {
   const { recipeDetails } = useContext(AppContext);
-  console.log(recipeDetails);
   return (
     <div>
       <RecipeHeading />
       <h3>Ingredients</h3>
-      <ul>
-        <li data-testid="0-ingredient-name-and-measure">Ingredient 1</li>
-      </ul>
+      {recipeDetails.ingredients.filter((ingredient) => ingredient).map((ing, index) => (
+        <li
+          key={ index }
+          data-testid={ `${index}-ingredient-name-and-measure` }
+        >
+          { `${ing} - ${recipeDetails.measures[Number(index)]}` }
+        </li>
+      ))}
       <InstructionsCard />
-      <RecomendationRecipes />
       <button
         type="button"
         data-testid="start-recipe-btn"

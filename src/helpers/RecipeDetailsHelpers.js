@@ -15,7 +15,8 @@ export default function handleWithObjectKeys(obj) {
       nationality: '',
       type: 'drink',
       page: 'drinks',
-      pageName: 'Drinks' });
+      pageName: 'Drinks',
+    });
   case 'food':
     return ({
       id: obj.idMeal,
@@ -24,7 +25,7 @@ export default function handleWithObjectKeys(obj) {
       category: obj.strCategory,
       ingredients: obj.ingredients,
       instructions: obj.strInstructions,
-      videoStr: obj.strYoutube,
+      videoStr: obj.videoStr,
       measures: obj.measure,
       recomendationUrl: 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=',
       alcoholic: '',

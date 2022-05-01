@@ -4,6 +4,7 @@ import RecipeDetails from '../../components/RecipeDetails';
 import fetchWithId from '../../services/fetchWithId';
 import handleWithObjectKeys from '../../helpers/RecipeDetailsHelpers';
 import AppContext from '../../context/MyContext';
+import RecomendationRecipes from '../../components/RecomendedRecipes';
 
 const DrinksDetails = (props) => {
   const { match: { params: { drinkId } } } = props;
@@ -37,6 +38,7 @@ const DrinksDetails = (props) => {
     <div>
       DrinksDetails
       {recipeDetails && <RecipeDetails />}
+      <RecomendationRecipes />
     </div>
   );
 };

@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import AppContext from '../../context/MyContext';
 
 const InstructionsCard = () => {
-  console.log('instructions');
+  const { recipeDetails } = useContext(AppContext);
   return (
     <div>
-      <h3 data-testid="instructions">Instructions</h3>
+      <h3>Instructions</h3>
+      <p data-testid="instructions">{ recipeDetails.instructions }</p>
     </div>
   );
 };
