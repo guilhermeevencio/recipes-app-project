@@ -5,7 +5,7 @@ export default function handleWithObjectKeys(obj) {
       id: obj.idDrink,
       strThumb: obj.strDrinkThumb,
       str: obj.strDrink,
-      category: obj.strAlcoholic,
+      category: obj.strCategory,
       ingredients: obj.ingredients,
       instructions: obj.strInstructions,
       videoStr: null,

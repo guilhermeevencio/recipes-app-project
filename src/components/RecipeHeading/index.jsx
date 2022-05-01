@@ -3,6 +3,8 @@ import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import shareIcon from '../../images/shareIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import AppContext from '../../context/MyContext';
+import favoriteToLocalStorageHelper from '../../helpers/favoriteToLocalStorageHelper';
+import useLocalStorage from '../../customHooks/useLocalStorage';
 
 const RecipeHeading = () => {
   const {
@@ -11,6 +13,33 @@ const RecipeHeading = () => {
     recipeStatusInfo } = useContext(AppContext);
 
   const [isLinkCopied, setIsLinkCopied] = useState(false);
+
+  const [favoriteRecipes, setFavoriteRecipes] = useLocalStorage('favoriteRecipes', []);
+
+  const handleFavorite = () => {
+    // if (favoriteRecipes !== []) { console.log('entrou'); }
+
+    const favoriteRecipeData = favoriteToLocalStorageHelper(recipeDetails);
+    console.log(recipeDetails);
+
+    switch (recipeStatusInfo.isFavorite) {
+    case true:
+      setFavoriteRecipes(favoriteRecipes
+        .filter(({ id }) => id && id !== recipeDetails.id));
+      setRecipeStatusInfo({
+        ...recipeStatusInfo,
+        isFavorite: false,
+      });
+      break;
+    default:
+      setFavoriteRecipes([...favoriteRecipes, favoriteRecipeData]);
+      setRecipeStatusInfo({
+        ...recipeStatusInfo,
+        isFavorite: !recipeStatusInfo.isFavorite,
+      });
+      break;
+    }
+  };
 
   // const [favoriteRecipes] = useLocalStorage('favoriteRecipes', []);
 
@@ -45,12 +74,7 @@ const RecipeHeading = () => {
           </button>
           <button
             type="button"
-            onClick={ () => (
-              setRecipeStatusInfo({
-                ...recipeStatusInfo,
-                isFavorite: !recipeStatusInfo.isFavorite,
-              })
-            ) }
+            onClick={ handleFavorite }
           >
             <img
               src={ recipeStatusInfo.isFavorite ? blackHeartIcon : whiteHeartIcon }
