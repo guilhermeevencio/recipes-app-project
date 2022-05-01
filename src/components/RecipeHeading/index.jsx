@@ -17,8 +17,6 @@ const RecipeHeading = () => {
   const [favoriteRecipes, setFavoriteRecipes] = useLocalStorage('favoriteRecipes', []);
 
   const handleFavorite = () => {
-    // if (favoriteRecipes !== []) { console.log('entrou'); }
-
     const favoriteRecipeData = favoriteToLocalStorageHelper(recipeDetails);
     console.log(recipeDetails);
 
@@ -40,15 +38,6 @@ const RecipeHeading = () => {
       break;
     }
   };
-
-  // const [favoriteRecipes] = useLocalStorage('favoriteRecipes', []);
-
-  // useEffect(() => {
-  //   if (recipeDetails) {
-  //     const filteredFavorites = favoriteRecipes
-  //       .filter(({ id }) => id !== recipeDetails.id);
-  //   }
-  // }, []);
 
   return (
     <div style={ { border: '1px solid red' } }>
