@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+// https://blog.webdevsimplified.com/2019-11/how-to-write-custom-hooks/ ----> dica de custom hook para lidar com local storage <----
+
 const getFromLocalStorage = (key, initialValue) => {
   const savedData = JSON.parse(localStorage.getItem(key));
   if (savedData) return savedData;

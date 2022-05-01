@@ -1,11 +1,15 @@
 import React, { useContext } from 'react';
 import whiteHeart from '../../images/whiteHeartIcon.svg';
 import shareIcon from '../../images/shareIcon.svg';
-// import blackHeart from '../../images/blackHeartIcon.svg';
+import blackHeart from '../../images/blackHeartIcon.svg';
 import AppContext from '../../context/MyContext';
 
 const RecipeHeading = () => {
-  const { recipeDetails } = useContext(AppContext);
+  const {
+    recipeDetails,
+    recipeStatusInfo: {
+      isFavorite,
+    } } = useContext(AppContext);
   return (
     <div style={ { border: '1px solid red' } }>
       <img
@@ -19,7 +23,7 @@ const RecipeHeading = () => {
         <img src={ shareIcon } alt="share button" />
       </button>
       <button type="button" data-testid="favorite-btn">
-        <img src={ whiteHeart } alt="share button" />
+        <img src={ isFavorite ? blackHeart : whiteHeart } alt="favorite button" />
       </button>
       <p data-testid="recipe-category">{ recipeDetails.category }</p>
     </div>

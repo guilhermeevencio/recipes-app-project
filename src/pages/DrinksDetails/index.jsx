@@ -67,7 +67,7 @@ const DrinksDetails = (props) => {
         <div>
           <RecipeDetails />
           <RecomendationRecipes />
-          <StartRecipeButton />
+          {!recipeStatusInfo.isFinished && <StartRecipeButton />}
         </div>
       )}
     </div>
