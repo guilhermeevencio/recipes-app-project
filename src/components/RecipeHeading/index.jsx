@@ -7,9 +7,8 @@ import AppContext from '../../context/MyContext';
 const RecipeHeading = () => {
   const {
     recipeDetails,
-    recipeStatusInfo: {
-      isFavorite,
-    } } = useContext(AppContext);
+    setRecipeStatusInfo,
+    recipeStatusInfo } = useContext(AppContext);
 
   const [isLinkCopied, setIsLinkCopied] = useState(false);
 
@@ -44,9 +43,17 @@ const RecipeHeading = () => {
           >
             <img src={ shareIcon } alt="share button" data-testid="share-btn" />
           </button>
-          <button type="button">
+          <button
+            type="button"
+            onClick={ () => (
+              setRecipeStatusInfo({
+                ...recipeStatusInfo,
+                isFavorite: !recipeStatusInfo.isFavorite,
+              })
+            ) }
+          >
             <img
-              src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+              src={ recipeStatusInfo.isFavorite ? blackHeartIcon : whiteHeartIcon }
               alt="favorite button"
               data-testid="favorite-btn"
             />
