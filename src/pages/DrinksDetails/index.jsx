@@ -5,7 +5,7 @@ import fetchWithId from '../../services/fetchWithId';
 import handleWithObjectKeys from '../../helpers/RecipeDetailsHelpers';
 import AppContext from '../../context/MyContext';
 import RecomendationRecipes from '../../components/RecomendedRecipes';
-import './styles.css';
+import StartRecipeButton from '../../components/StartRecipeButton';
 
 const DrinksDetails = (props) => {
   const { match: { params: { drinkId } } } = props;
@@ -43,12 +43,7 @@ const DrinksDetails = (props) => {
         <div>
           <RecipeDetails />
           <RecomendationRecipes />
-          <button
-            type="button"
-            data-testid="start-recipe-btn"
-          >
-            Start Recipe
-          </button>
+          <StartRecipeButton />
         </div>
       )}
     </div>
