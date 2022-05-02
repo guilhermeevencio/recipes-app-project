@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import AppContext from '../../context/MyContext';
 import { fetchFromApi } from '../../services/fetchFromApi';
-// import RecipeCards from '../RecipeCards';
 
 const FIRST_LETTER = 'First Letter';
 
@@ -30,15 +29,25 @@ const SearchBar = (props) => {
 
   useEffect(() => {
     if (dataFromApiSearch.meals) {
-      const result = dataFromApiSearch.meals.map(({ idMeal, strMealThumb, strMeal }) => (
-        { id: idMeal, strThumb: strMealThumb, str: strMeal }
-      ));
+      const result = dataFromApiSearch.meals
+        .map(({ idMeal, strMealThumb, strMeal }) => (
+          {
+            id: idMeal,
+            strThumb: strMealThumb,
+            str: strMeal,
+            page: 'foods',
+          }
+        ));
       setCardDataFromSearchBar(result);
     }
     if (dataFromApiSearch.drinks) {
       const result = dataFromApiSearch.drinks.map(
         ({ idDrink, strDrinkThumb, strDrink }) => (
-          { id: idDrink, strThumb: strDrinkThumb, str: strDrink }
+          {
+            id: idDrink,
+            strThumb: strDrinkThumb,
+            str: strDrink,
+            page: 'drinks' }
         ),
       );
       setCardDataFromSearchBar(result);
@@ -143,7 +152,6 @@ const SearchBar = (props) => {
           Search
         </button>
       </div>
-      {/* {dataFromApiSearch && <RecipeCards cardData={ cardData } />} */}
     </div>
   );
 };

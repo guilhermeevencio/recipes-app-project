@@ -17,6 +17,8 @@ import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import FoodDetails from './pages/FoodDetails';
 import DrinksDetails from './pages/DrinksDetails';
+import FoodInProgress from './pages/FoodInProgress';
+import DrinkInProgress from './pages/DrinkInProgress';
 
 function App() {
   return (
@@ -62,6 +64,16 @@ function App() {
         exact
         path="/drinks/:drinkId"
         render={ (props) => <DrinksDetails { ...props } /> }
+      />
+      <Route
+        exact
+        path="/foods/:foodId/in-progress"
+        render={ (props) => <FoodInProgress { ...props } /> }
+      />
+      <Route
+        exact
+        path="/drinks/:drinkId/in-progress"
+        render={ (props) => <DrinkInProgress { ...props } /> }
       />
     </Switch>
   );

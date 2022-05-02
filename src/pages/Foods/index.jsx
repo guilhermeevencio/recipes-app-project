@@ -22,7 +22,7 @@ const Foods = () => {
 
   const transformMealArrToDefaultArr = (arr) => {
     const newArr = arr.map(({ idMeal, strMealThumb, strMeal }) => (
-      { id: idMeal, strThumb: strMealThumb, str: strMeal }));
+      { id: idMeal, strThumb: strMealThumb, str: strMeal, page: 'foods' }));
     return newArr;
   };
 
@@ -75,7 +75,7 @@ const Foods = () => {
           currentCategoryFilter={ currentCategoryFilter }
           setCurrentCategoryFilter={ setCurrentCategoryFilter }
         />))}
-      {cardData && <RecipeCards cardData={ cardData } currentPage="foods" />}
+      {cardData && <RecipeCards cardData={ cardData } />}
       <Footer pageName="Foods" />
     </div>
   );
