@@ -3,18 +3,18 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import AppContext from '../../context/MyContext';
 import { fetchFromApi } from '../../services/fetchFromApi';
-import RecipeCards from '../RecipeCards';
+// import RecipeCards from '../RecipeCards';
 
 const FIRST_LETTER = 'First Letter';
 
 const SearchBar = (props) => {
   const { page } = props;
-  const { setDataFromApiSearch, dataFromApiSearch } = useContext(AppContext);
+  const { setDataFromApiSearch, dataFromApiSearch,
+    setCardDataFromSearchBar } = useContext(AppContext);
 
   const [radioSelected, setRadioSelected] = useState('Ingredient');
   const [searchInputValue, setSearchInputValue] = useState('');
   const [endpoint, setEndpoint] = useState('');
-  const [cardData, setCardData] = useState([]);
 
   const history = useHistory();
 
@@ -33,7 +33,7 @@ const SearchBar = (props) => {
       const result = dataFromApiSearch.meals.map(({ idMeal, strMealThumb, strMeal }) => (
         { id: idMeal, strThumb: strMealThumb, str: strMeal }
       ));
-      setCardData(result);
+      setCardDataFromSearchBar(result);
     }
     if (dataFromApiSearch.drinks) {
       const result = dataFromApiSearch.drinks.map(
@@ -41,7 +41,7 @@ const SearchBar = (props) => {
           { id: idDrink, strThumb: strDrinkThumb, str: strDrink }
         ),
       );
-      setCardData(result);
+      setCardDataFromSearchBar(result);
     }
   }, [dataFromApiSearch]);
 
@@ -143,7 +143,7 @@ const SearchBar = (props) => {
           Search
         </button>
       </div>
-      {dataFromApiSearch && <RecipeCards cardData={ cardData } />}
+      {/* {dataFromApiSearch && <RecipeCards cardData={ cardData } />} */}
     </div>
   );
 };

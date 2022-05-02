@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import RecipeCards from '../../components/RecipeCards';
 import CategoryButton from '../../components/CategoryButton';
+import AppContext from '../../context/MyContext';
 import {
   searchDrinksByNameAPI,
   drinkCategoriesAPI,
@@ -15,6 +16,8 @@ const Drinks = () => {
   const [cardData, setCardData] = useState([]);
   const [categories, setCategories] = useState([]);
   const [currentCategoryFilter, setCurrentCategoryFilter] = useState('noFilter');
+
+  const { cardDataFromSearchBar } = useContext(AppContext);
 
   const transformDrinkArrToDefaultArr = (arr) => {
     const newArr = arr.map(({ idDrink, strDrinkThumb, strDrink }) => (
@@ -45,6 +48,10 @@ const Drinks = () => {
     fetchDrinksAndStateIt();
     fetchCaregoriesAndStateIt();
   }, []);
+
+  useEffect(() => {
+    setCardData(cardDataFromSearchBar);
+  }, [cardDataFromSearchBar]);
 
   return (
     <div>

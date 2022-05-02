@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import RecipeCards from '../../components/RecipeCards';
 import CategoryButton from '../../components/CategoryButton';
+import AppContext from '../../context/MyContext';
 
 import {
   searchMealByNameAPI,
@@ -16,6 +17,8 @@ const Foods = () => {
   const [cardData, setCardData] = useState([]);
   const [categories, setCategories] = useState([]);
   const [currentCategoryFilter, setCurrentCategoryFilter] = useState('noFilter');
+
+  const { cardDataFromSearchBar } = useContext(AppContext);
 
   const transformMealArrToDefaultArr = (arr) => {
     const newArr = arr.map(({ idMeal, strMealThumb, strMeal }) => (
@@ -46,6 +49,10 @@ const Foods = () => {
     fetchMealsAndStateIt();
     fetchCaregoriesAndStateIt();
   }, []);
+
+  useEffect(() => {
+    setCardData(cardDataFromSearchBar);
+  }, [cardDataFromSearchBar]);
 
   return (
     <div>

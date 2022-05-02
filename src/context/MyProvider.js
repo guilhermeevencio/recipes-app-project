@@ -6,6 +6,7 @@ const Provider = ({ children }) => {
   const [teste, setTeste] = useState('teste');
   const [pageName, setPageName] = useState('Food');
   const [dataFromApiSearch, setDataFromApiSearch] = useState({});
+  const [cardDataFromSearchBar, setCardDataFromSearchBar] = useState([]);
 
   const contextValue = {
     pageName,
@@ -14,6 +15,8 @@ const Provider = ({ children }) => {
     setDataFromApiSearch,
     teste,
     setTeste,
+    cardDataFromSearchBar,
+    setCardDataFromSearchBar,
   };
 
   return (
