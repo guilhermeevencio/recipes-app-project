@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './styles.css';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const TWELVE = 12;
@@ -13,7 +14,6 @@ function RecipeCard({ cardData }) {
 
   useEffect(() => {
     const response = cardData || [];
-    console.log(response);
     const newResponse = [...response];
     const returned = newResponse.splice(0, TWELVE);
     setCards(returned);
@@ -32,9 +32,11 @@ function RecipeCard({ cardData }) {
   return (
     <div className="recipecard-container">
       <h1>RecipeCard</h1>
-      {cards.map(({ id, strThumb, str }, index) => (
-        <div
+      {cards.map(({ id, strThumb, str, page }, index) => (
+        <Link
+          to={ `/${page}/${id}` }
           key={ id }
+          id={ id }
           data-testid={ `${index}-recipe-card` }
         >
           <div
@@ -48,7 +50,7 @@ function RecipeCard({ cardData }) {
             alt={ str }
             data-testid={ `${index}-card-img` }
           />
-        </div>
+        </Link>
       ))}
       {/* <button
         type="button"

@@ -30,15 +30,25 @@ const SearchBar = (props) => {
 
   useEffect(() => {
     if (dataFromApiSearch.meals) {
-      const result = dataFromApiSearch.meals.map(({ idMeal, strMealThumb, strMeal }) => (
-        { id: idMeal, strThumb: strMealThumb, str: strMeal }
-      ));
+      const result = dataFromApiSearch.meals
+        .map(({ idMeal, strMealThumb, strMeal }) => (
+          {
+            id: idMeal,
+            strThumb: strMealThumb,
+            str: strMeal,
+            page: 'foods',
+          }
+        ));
       setCardData(result);
     }
     if (dataFromApiSearch.drinks) {
       const result = dataFromApiSearch.drinks.map(
         ({ idDrink, strDrinkThumb, strDrink }) => (
-          { id: idDrink, strThumb: strDrinkThumb, str: strDrink }
+          {
+            id: idDrink,
+            strThumb: strDrinkThumb,
+            str: strDrink,
+            page: 'drinks' }
         ),
       );
       setCardData(result);

@@ -6,6 +6,13 @@ const Provider = ({ children }) => {
   const [teste, setTeste] = useState('teste');
   const [pageName, setPageName] = useState('Food');
   const [dataFromApiSearch, setDataFromApiSearch] = useState({});
+  const [recipeDetails, setRecipeDetails] = useState(null);
+  const [recipeStatusInfo, setRecipeStatusInfo] = useState({
+    isFavorite: false,
+    isFinished: false,
+    isInProgress: false,
+  });
+
   const contextValue = {
     pageName,
     setPageName,
@@ -13,7 +20,12 @@ const Provider = ({ children }) => {
     setDataFromApiSearch,
     teste,
     setTeste,
+    recipeDetails,
+    setRecipeDetails,
+    recipeStatusInfo,
+    setRecipeStatusInfo,
   };
+
   return (
     <AppContext.Provider value={ contextValue }>
       { children }
