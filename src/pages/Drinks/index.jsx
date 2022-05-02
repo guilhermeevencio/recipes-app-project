@@ -67,7 +67,7 @@ const Drinks = () => {
           currentCategoryFilter={ currentCategoryFilter }
           setCurrentCategoryFilter={ setCurrentCategoryFilter }
         />))}
-      {cardData && <RecipeCards cardData={ cardData } />}
+      {cardData && <RecipeCards cardData={ cardData } currentPage="drinks" />}
       <Footer pageName="Drinks" />
     </div>
   );
