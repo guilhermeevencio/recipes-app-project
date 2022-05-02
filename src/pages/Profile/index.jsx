@@ -4,6 +4,7 @@ import Footer from '../../components/Footer';
 
 const Profile = () => {
   const userEmail = localStorage.getItem('user');
+
   return (
     <div>
       <Header pageName="Profile" searchEnabled={ false } />
