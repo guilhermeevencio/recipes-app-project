@@ -1,10 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
 const Profile = () => {
   const userEmail = localStorage.getItem('user');
+  const history = useHistory();
+
+  const clearLocalStorageAndRedirectToLogin = () => {
+    if (localStorage !== null) {
+      localStorage.clear();
+    }
+    return history.push('/');
+  };
 
   return (
     <div>
@@ -30,6 +38,7 @@ const Profile = () => {
       <button
         type="button"
         data-testid="profile-logout-btn"
+        onClick={ clearLocalStorageAndRedirectToLogin }
       >
         Logout
       </button>
