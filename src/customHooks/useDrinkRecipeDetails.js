@@ -3,7 +3,7 @@ import fetchWithId from '../services/fetchWithId';
 import handleWithObjectKeys from '../helpers/RecipeDetailsHelpers';
 import AppContext from '../context/MyContext';
 
-const useDrinkRecipeDetails = () => {
+const useDrinkRecipeDetails = (drinkId) => {
   const { setRecipeDetails } = useContext(AppContext);
 
   useEffect(() => {
