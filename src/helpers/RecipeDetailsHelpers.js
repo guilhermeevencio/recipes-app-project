@@ -16,6 +16,7 @@ export default function handleWithObjectKeys(obj) {
       type: 'drink',
       page: 'drinks',
       pageName: 'Drinks',
+      inProgressKey: 'cocktails',
     });
   case 'food':
     return ({
@@ -33,6 +34,7 @@ export default function handleWithObjectKeys(obj) {
       type: 'food',
       page: 'foods',
       pageName: 'Foods',
+      inProgressKey: 'meals',
     });
   default:
     break;

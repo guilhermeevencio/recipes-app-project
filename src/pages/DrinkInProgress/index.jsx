@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-// import AppContext from '../../context/MyContext';
+import AppContext from '../../context/MyContext';
 import useDrinkRecipeDetails from '../../customHooks/useDrinkRecipeDetails';
 import RecipeHeading from '../../components/RecipeHeading';
 import InProgressIngredients from '../../components/InProgressIngredients';
@@ -9,15 +9,19 @@ import FinnishButton from '../../components/FinishRecipeButton';
 
 const DrinkInProgress = (props) => {
   const { match: { params: { drinkId } } } = props;
-  // const { recipeDetails } = useContext(AppContext);
+  const { recipeDetails } = useContext(AppContext);
   useDrinkRecipeDetails(drinkId);
 
   return (
     <div>
-      <RecipeHeading />
-      <InProgressIngredients />
-      <InstructionsCard />
-      <FinnishButton />
+      {recipeDetails
+        && (
+          <div>
+            <RecipeHeading />
+            <InProgressIngredients />
+            <InstructionsCard />
+            <FinnishButton />
+          </div>)}
     </div>
   );
 };
