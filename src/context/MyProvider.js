@@ -6,6 +6,7 @@ const Provider = ({ children }) => {
   const [teste, setTeste] = useState('teste');
   const [pageName, setPageName] = useState('Food');
   const [dataFromApiSearch, setDataFromApiSearch] = useState({});
+  const [cardDataFromSearchBar, setCardDataFromSearchBar] = useState([]);
   const [recipeDetails, setRecipeDetails] = useState(null);
   const [recipeStatusInfo, setRecipeStatusInfo] = useState({
     isFavorite: false,
@@ -20,6 +21,8 @@ const Provider = ({ children }) => {
     setDataFromApiSearch,
     teste,
     setTeste,
+    cardDataFromSearchBar,
+    setCardDataFromSearchBar,
     recipeDetails,
     setRecipeDetails,
     recipeStatusInfo,
