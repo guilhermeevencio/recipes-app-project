@@ -18,7 +18,9 @@ const FoodDetails = (props) => {
 
   const [doneRecipesValue] = useLocalStorage('doneRecipes', []);
   const [favoriteRecipesValue] = useLocalStorage('favoriteRecipes', []);
-  const [inProgressRecipesValue] = useLocalStorage('inProgressRecipes', {});
+  const [inProgressRecipesValue] = useLocalStorage(
+    'inProgressRecipes', { meals: {}, cocktails: {} },
+  );
 
   useEffect(() => {
     if (recipeDetails) {
