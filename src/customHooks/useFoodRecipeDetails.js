@@ -3,12 +3,12 @@ import fetchWithId from '../services/fetchWithId';
 import handleWithObjectKeys from '../helpers/RecipeDetailsHelpers';
 import AppContext from '../context/MyContext';
 
-const useFoodRecipeDetails = () => {
+const useFoodRecipeDetails = (foodId) => {
   const { setRecipeDetails } = useContext(AppContext);
 
   useEffect(() => {
-    const receivedDataWithItemId = async (id) => {
-      const { meals } = await fetchWithId(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+    const receivedDataWithItemId = async () => {
+      const { meals } = await fetchWithId(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${foodId}`);
 
       // codigo utilizado para dividir os arrays => https://masteringjs.io/tutorials/fundamentals/filter-key
 
@@ -37,7 +37,7 @@ const useFoodRecipeDetails = () => {
       setRecipeDetails(refactoredRecipeObj);
     };
     receivedDataWithItemId();
-  }, [foodId, setRecipeDetails]);
+  }, [setRecipeDetails]);
 };
 
 export default useFoodRecipeDetails;
