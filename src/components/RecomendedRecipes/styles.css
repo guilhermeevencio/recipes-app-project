@@ -1,0 +1,18 @@
+.recomendationrecipes-container {
+  border: 1px solid red;
+  height: 341px;
+  margin: 20px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  position: relative;
+  width: 600px;
+}
+
+.recomendationrecipes-container img {
+  height: 300px;
+  width: 300px;
+}
+
+.recomendationrecipes-images-group {
+  display: flex;
+}
