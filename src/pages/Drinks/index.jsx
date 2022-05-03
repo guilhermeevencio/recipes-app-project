@@ -5,7 +5,6 @@ import RecipeCards from '../../components/RecipeCards';
 import CategoryButton from '../../components/CategoryButton';
 import AppContext from '../../context/MyContext';
 import {
-  searchDrinksByNameAPI,
   drinkCategoriesAPI,
   filterByDrinkCategoryAPI,
 } from '../../services/fetchFromApi';
@@ -26,8 +25,9 @@ const Drinks = () => {
   };
 
   const fetchDrinksAndStateIt = async () => {
-    const results = await searchDrinksByNameAPI();
-    const newResults = transformDrinkArrToDefaultArr(results);
+    const request = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+    const response = await request.json();
+    const newResults = transformDrinkArrToDefaultArr(response.drinks);
     setCardData(newResults);
   };
 
