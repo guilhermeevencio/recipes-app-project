@@ -1,7 +1,6 @@
 .recomendationrecipes-container {
   border: 1px solid red;
   height: 341px;
-  margin: 20px;
   overflow-x: scroll;
   overflow-y: hidden;
   position: relative;
