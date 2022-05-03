@@ -4,52 +4,16 @@ import useLocalStorage from '../../customHooks/useLocalStorage';
 import './styles.css';
 
 const InProgressIngredients = () => {
-  const { recipeDetails,
-    recipeStatusInfo,
-    setRecipeStatusInfo } = useContext(AppContext);
+  const { recipeDetails } = useContext(AppContext);
   const [isChecked, setIsChecked] = useState([]);
-
+  const [ingredientsInfo, setIngredientsInfo] = useState({
+    checkBoxName: {},
+  });
   const [
     inProgressRecipesValue,
     setIProgressRecipesValue,
   ] = useLocalStorage('inProgressRecipes', { meals: {}, cocktails: {} });
-  const [doneRecipesValue] = useLocalStorage('doneRecipes', []);
-  const [favoriteRecipesValue] = useLocalStorage('favoriteRecipes', []);
 
-  useEffect(() => {
-    if (recipeDetails) {
-      const inProgressId = Object.values(inProgressRecipesValue)
-        .reduce((acc, obj) => [...acc, ...Object.keys(obj)], []);
-
-      setRecipeStatusInfo({
-        ...recipeStatusInfo,
-        isFavorite: favoriteRecipesValue.some(({ id }) => id && id === recipeDetails.id),
-        isFinished: doneRecipesValue.some(({ id }) => id && id === recipeDetails.id),
-        isInProgress: inProgressId.some((id) => id === recipeDetails.id),
-      });
-    }
-  }, [recipeDetails, doneRecipesValue, favoriteRecipesValue, inProgressRecipesValue]);
-
-  // useEffect(() => {
-  //   if (recipeDetails) {
-  //     setIProgressRecipesValue({
-  //       ...inProgressRecipesValue,
-  //       [recipeDetails.inProgressKey]: {
-  //         [recipeDetails.id]: [],
-  //       },
-  //     });
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   if (recipeDetails) {
-  //     console.log(inProgressRecipesValue[recipeDetails.inProgressKey][recipeDetails.id]);
-  //     console.log('teste');
-  //     setIsChecked(
-  //       inProgressRecipesValue[recipeDetails.inProgressKey][recipeDetails.id],
-  //     );
-  //   }
-  // }, []);
   useEffect(() => {
     if (recipeDetails
       && !!inProgressRecipesValue[recipeDetails.inProgressKey][recipeDetails.id]) {
@@ -62,9 +26,10 @@ const InProgressIngredients = () => {
       ? 'ingredient-checked' : 'ingredient-not-checked'
   );
 
-  const isIngredientChecked = (ingredient) => (
-    !!isChecked.includes(ingredient)
-  );
+  // const isIngredientChecked = (ingredient) => {
+  //   console.log(!!isChecked.includes(ingredient));
+  //   return !!isChecked.includes(ingredient);
+  // };
 
   const handleCheck = ({ target }) => {
     let updatedList = [...isChecked];
@@ -88,7 +53,20 @@ const InProgressIngredients = () => {
         },
       });
     }
-    isIngredientChecked(target.value);
+    if (Object.keys(ingredientsInfo.checkBoxName)
+      .some((ing) => ing && ing === target.value)) {
+      delete ingredientsInfo.checkBoxName[target.name];
+    } else {
+      setIngredientsInfo({
+        ...ingredientsInfo,
+        checkBoxName: {
+          ...ingredientsInfo.checkBoxName,
+          [target.value]: !ingredientsInfo.checkBoxName[target.value],
+        },
+
+      });
+    }
+    console.log(ingredientsInfo);
   };
 
   return (
@@ -116,7 +94,7 @@ const InProgressIngredients = () => {
                   id={ `${index}-ingredient-step` }
                   onChange={ handleCheck }
                   value={ ing }
-                  checked={ isIngredientChecked(ing) }
+                  checked={ isChecked.includes(ing) }
                 />
               </label>
             ))
