@@ -6,9 +6,6 @@ import './styles.css';
 const InProgressIngredients = () => {
   const { recipeDetails } = useContext(AppContext);
   const [isChecked, setIsChecked] = useState([]);
-  const [ingredientsInfo, setIngredientsInfo] = useState({
-    checkBoxName: {},
-  });
   const [
     inProgressRecipesValue,
     setIProgressRecipesValue,
@@ -25,11 +22,6 @@ const InProgressIngredients = () => {
     isChecked.includes(ingredient)
       ? 'ingredient-checked' : 'ingredient-not-checked'
   );
-
-  // const isIngredientChecked = (ingredient) => {
-  //   console.log(!!isChecked.includes(ingredient));
-  //   return !!isChecked.includes(ingredient);
-  // };
 
   const handleCheck = ({ target }) => {
     let updatedList = [...isChecked];
@@ -53,20 +45,6 @@ const InProgressIngredients = () => {
         },
       });
     }
-    if (Object.keys(ingredientsInfo.checkBoxName)
-      .some((ing) => ing && ing === target.value)) {
-      delete ingredientsInfo.checkBoxName[target.name];
-    } else {
-      setIngredientsInfo({
-        ...ingredientsInfo,
-        checkBoxName: {
-          ...ingredientsInfo.checkBoxName,
-          [target.value]: !ingredientsInfo.checkBoxName[target.value],
-        },
-
-      });
-    }
-    console.log(ingredientsInfo);
   };
 
   return (
@@ -94,7 +72,7 @@ const InProgressIngredients = () => {
                   id={ `${index}-ingredient-step` }
                   onChange={ handleCheck }
                   value={ ing }
-                  checked={ isChecked.includes(ing) }
+                  defaultChecked={ isChecked.includes(ing) }
                 />
               </label>
             ))
