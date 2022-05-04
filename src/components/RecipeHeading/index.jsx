@@ -18,7 +18,6 @@ const RecipeHeading = () => {
 
   const handleFavorite = () => {
     const favoriteRecipeData = favoriteToLocalStorageHelper(recipeDetails);
-    console.log(recipeDetails);
 
     switch (recipeStatusInfo.isFavorite) {
     case true:

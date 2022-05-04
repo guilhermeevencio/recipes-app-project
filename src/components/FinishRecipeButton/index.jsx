@@ -7,19 +7,23 @@ import AppContext from '../../context/MyContext';
 
 const FinnishButton = (props) => {
   const { isDisabled } = props;
-  const { recipeDetails } = useContext(AppContext);
+  const { recipeDetails, recipeStatusInfo } = useContext(AppContext);
   const history = useHistory();
   const [doneRecipesValue, setDoneRecipesValue] = useLocalStorage('doneRecipes', []);
 
   const handleClick = () => {
     const doneData = doneToLocalStorageHelper(recipeDetails);
-    setDoneRecipesValue([
-      ...doneRecipesValue,
-      doneData,
-    ]);
-    setTimeout(() => {
+    if (!recipeStatusInfo.isFinished) {
+      setDoneRecipesValue([
+        ...doneRecipesValue,
+        doneData,
+      ]);
+      setTimeout(() => {
+        history.push('/done-recipes');
+      }, 100);
+    } else {
       history.push('/done-recipes');
-    }, 100);
+    }
   };
 
   return (
