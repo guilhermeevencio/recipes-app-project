@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import Header from '../../components/Header';
 import shareIcon from '../../images/shareIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
@@ -16,14 +17,14 @@ const FavoriteRecipes = () => {
   }, []);
 
   // useEffect de CONSOLE LOG
-  // useEffect(() => {
-  //   console.log(props);
-  // }, [favorites]);
+  useEffect(() => {
+    console.log(favorites);
+  }, [favorites]);
 
-  const handleShareBtn = () => {
+  const handleShareBtn = (url) => {
     setIsLinkCopied(true);
     setTimeout(() => setIsLinkCopied(false), THREE_SECOND);
-    navigator.clipboard.writeText('Xlabauuuuuu!');
+    navigator.clipboard.writeText(url);
   };
 
   return (
@@ -68,7 +69,7 @@ const FavoriteRecipes = () => {
               type="button"
               data-testid={ `${index}-horizontal-share-btn` }
               src={ shareIcon }
-              onClick={ handleShareBtn }
+              onClick={ () => handleShareBtn(`http://localhost:3000/${type}s/${id}`) }
             >
               <img src={ shareIcon } alt="Botão de compartilhar" />
             </button>
@@ -89,5 +90,9 @@ const FavoriteRecipes = () => {
     </div>
   );
 };
+
+FavoriteRecipes.propTypes = {
+  location: PropTypes.object,
+}.isRequired;
 
 export default FavoriteRecipes;
