@@ -44,11 +44,6 @@ const InProgressIngredients = () => {
       ? 'ingredient-checked' : 'ingredient-not-checked'
   );
 
-  // const isIngredientChecked = (ingredient) => {
-  //   console.log(!!isChecked.includes(ingredient));
-  //   return !!isChecked.includes(ingredient);
-  // };
-
   const handleCheck = ({ target }) => {
     let updatedList = [...isChecked];
     if (target.checked && !isChecked.includes(target.value)) {

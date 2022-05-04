@@ -1,13 +1,25 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
+import doneToLocalStorageHelper from '../../helpers/doneToLocalStorageHelper';
+import useLocalStorage from '../../customHooks/useLocalStorage';
+import AppContext from '../../context/MyContext';
 
 const FinnishButton = (props) => {
   const { isDisabled } = props;
+  const { recipeDetails } = useContext(AppContext);
   const history = useHistory();
+  const [doneRecipesValue, setDoneRecipesValue] = useLocalStorage('doneRecipes', []);
 
   const handleClick = () => {
-    history.push('/done-recipes');
+    const doneData = doneToLocalStorageHelper(recipeDetails);
+    setDoneRecipesValue([
+      ...doneRecipesValue,
+      doneData,
+    ]);
+    setTimeout(() => {
+      history.push('/done-recipes');
+    }, 100);
   };
 
   return (

@@ -32,7 +32,6 @@ const DrinkInProgress = (props) => {
       {recipeDetails
         && (
           <div>
-            {console.log(recipeStatusInfo.isInProgress)}
             <RecipeHeading />
             <InProgressIngredients />
             <InstructionsCard />
