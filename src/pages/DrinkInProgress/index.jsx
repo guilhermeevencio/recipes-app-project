@@ -16,20 +16,13 @@ const DrinkInProgress = (props) => {
   useDrinkRecipeDetails(drinkId);
   const [favoriteRecipesValue] = useLocalStorage('favoriteRecipes', []);
   const [doneRecipesValue] = useLocalStorage('doneRecipes', []);
-  const [inProgressRecipesValue] = useLocalStorage(
-    'inProgressRecipes', { meals: {}, cocktails: {} },
-  );
 
   useEffect(() => {
     if (recipeDetails) {
-      const inProgressId = Object.values(inProgressRecipesValue)
-        .reduce((acc, obj) => [...acc, ...Object.keys(obj)], []);
-
       setRecipeStatusInfo({
         ...recipeStatusInfo,
         isFavorite: favoriteRecipesValue.some(({ id }) => id && id === recipeDetails.id),
         isFinished: doneRecipesValue.some(({ id }) => id && id === recipeDetails.id),
-        isInProgress: inProgressId.some((id) => id === recipeDetails.id),
       });
     }
   }, [recipeDetails, doneRecipesValue, favoriteRecipesValue]);
@@ -39,11 +32,11 @@ const DrinkInProgress = (props) => {
       {recipeDetails
         && (
           <div>
+            {console.log(recipeStatusInfo.isInProgress)}
             <RecipeHeading />
             <InProgressIngredients />
             <InstructionsCard />
-            {(!recipeStatusInfo.isInProgress)
-              && <FinnishButton />}
+            <FinnishButton isDisabled={ recipeStatusInfo.isInProgress } />
           </div>)}
     </div>
   );

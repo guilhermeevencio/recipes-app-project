@@ -1,15 +1,36 @@
 import React, { useContext, useEffect, useState } from 'react';
 import AppContext from '../../context/MyContext';
 import useLocalStorage from '../../customHooks/useLocalStorage';
+import compareArrays from '../../helpers/compareArrays';
 import './styles.css';
 
 const InProgressIngredients = () => {
-  const { recipeDetails } = useContext(AppContext);
+  const { recipeDetails,
+    recipeStatusInfo,
+    setRecipeStatusInfo } = useContext(AppContext);
   const [isChecked, setIsChecked] = useState([]);
   const [
     inProgressRecipesValue,
     setIProgressRecipesValue,
-  ] = useLocalStorage('inProgressRecipes', { meals: {}, cocktails: {} });
+  ] = useLocalStorage('inProgressRecipes',
+    { meals: {}, cocktails: { [recipeDetails.id]: [] } });
+
+  useEffect(() => {
+    setRecipeStatusInfo({
+      ...recipeStatusInfo,
+      isInProgress: true,
+    });
+    if (recipeDetails
+      && !!inProgressRecipesValue[recipeDetails.inProgressKey][recipeDetails.id]) {
+      const isEqual = compareArrays(isChecked,
+        recipeDetails.ingredients.filter((ing) => ing),
+        inProgressRecipesValue[recipeDetails.inProgressKey][recipeDetails.id]);
+      setRecipeStatusInfo({
+        ...recipeStatusInfo,
+        isInProgress: !isEqual,
+      });
+    }
+  }, [inProgressRecipesValue, isChecked, recipeDetails]);
 
   useEffect(() => {
     if (recipeDetails
@@ -30,7 +51,7 @@ const InProgressIngredients = () => {
 
   const handleCheck = ({ target }) => {
     let updatedList = [...isChecked];
-    if (target.checked) {
+    if (target.checked && !isChecked.includes(target.value)) {
       updatedList = [...isChecked, target.value];
       setIsChecked(updatedList);
       setIProgressRecipesValue({
