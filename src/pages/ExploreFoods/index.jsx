@@ -2,9 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import randomFood from '../../services/fetchFromApi';
 
 const ExploreFoods = () => {
-  console.log('teste');
+  console.log(randomFood);
   return (
     <div>
       <Header pageName="Explore Foods" searchEnabled={ false } />

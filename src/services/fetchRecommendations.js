@@ -1,10 +1,11 @@
-import fetchFromApi from './fetchFromApi';
+import { fetchFromApi } from './fetchFromApi';
 
 const fetchRecomendations = async (url, pageName) => {
   const recipes = await fetchFromApi(url);
   const numberOfRecomendations = 6;
   if (pageName === 'Foods') {
-    const sixRecomentations = recipes.drinks.splice(0, numberOfRecomendations);
+    const newRecipes = [...recipes.drinks];
+    const sixRecomentations = newRecipes.splice(0, numberOfRecomendations);
     const drinksResult = sixRecomentations
       .map(({ idDrink, strDrinkThumb, strDrink }) => (
         { id: idDrink, strThumb: strDrinkThumb, str: strDrink, page: 'drinks' }
@@ -12,7 +13,8 @@ const fetchRecomendations = async (url, pageName) => {
     return drinksResult;
   }
   if (pageName === 'Drinks') {
-    const sixRecomentations = recipes.meals.splice(0, numberOfRecomendations);
+    const newRecipes = [...recipes.meals];
+    const sixRecomentations = newRecipes.splice(0, numberOfRecomendations);
     const mealsResult = sixRecomentations
       .map(({ idMeal, strMealThumb, strMeal }) => (
         { id: idMeal, strThumb: strMealThumb, str: strMeal, page: 'foods' }

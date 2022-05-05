@@ -36,7 +36,7 @@ function Login() {
     }
   };
 
-  const handleEnter = () => {
+  const handleEnter = async () => {
     const userObj = { email };
     window.localStorage.setItem('mealsToken', '1');
     window.localStorage.setItem('cocktailsToken', '1');

@@ -59,6 +59,7 @@ const DrinksDetails = (props) => {
     };
     receivedDataWithItemId();
   }, [drinkId, setRecipeDetails]);
+
   return (
     <div>
       DrinksDetails
