@@ -13,6 +13,7 @@ const THREE_SECOND = 3000;
 const FavoriteRecipes = () => {
   const [favorites, setFavorites] = useState([]);
   const [isLinkCopied, setIsLinkCopied] = useState(false);
+  const [filteredBy, setFilteredBy] = useState('all');
 
   useEffect(() => {
     const result = getArrayOfFavoritesFromLocalStorage();
@@ -36,61 +37,66 @@ const FavoriteRecipes = () => {
       <button
         type="button"
         data-testid="filter-by-all-btn"
+        onClick={ () => setFilteredBy('all') }
       >
         All
       </button>
       <button
         type="button"
         data-testid="filter-by-food-btn"
+        onClick={ () => setFilteredBy('food') }
       >
         Food
       </button>
       <button
         type="button"
         data-testid="filter-by-drink-btn"
+        onClick={ () => setFilteredBy('drink') }
       >
         Drink
       </button>
 
-      {favorites && favorites.map((
-        { id, image, name, nationality, category, type, alcoholicOrNot }, index,
-      ) => (
-        <div key={ id }>
-          <img
-            data-testid={ `${index}-horizontal-image` }
-            src={ image }
-            alt={ name }
-            width={ 90 }
-          />
+      {favorites && favorites
+        .filter(({ type }) => (filteredBy === 'all' ? true : type === filteredBy))
+        .map((
+          { id, image, name, nationality, category, type, alcoholicOrNot }, index,
+        ) => (
+          <div key={ id }>
+            <img
+              data-testid={ `${index}-horizontal-image` }
+              src={ image }
+              alt={ name }
+              width={ 90 }
+            />
 
-          <div>
-            <div data-testid={ `${index}-horizontal-top-text` }>
-              { type === 'food' ? `${nationality} - ${category}` : alcoholicOrNot}
-            </div>
-            <div data-testid={ `${index}-horizontal-name` }>{name}</div>
-            <button
-              type="button"
-              data-testid={ `${index}-horizontal-share-btn` }
-              src={ shareIcon }
-              onClick={ () => handleShareBtn(`http://localhost:3000/${type}s/${id}`) }
-            >
-              <img src={ shareIcon } alt="Botão de compartilhar" />
-            </button>
-            <button
-              type="button"
-              data-testid={ `${index}-horizontal-favorite-btn` }
-              src={ blackHeartIcon }
-              onClick={ () => handleFavoriteBtn(index) }
-            >
-              <img
+            <div>
+              <div data-testid={ `${index}-horizontal-top-text` }>
+                { type === 'food' ? `${nationality} - ${category}` : alcoholicOrNot}
+              </div>
+              <div data-testid={ `${index}-horizontal-name` }>{name}</div>
+              <button
+                type="button"
+                data-testid={ `${index}-horizontal-share-btn` }
+                src={ shareIcon }
+                onClick={ () => handleShareBtn(`http://localhost:3000/${type}s/${id}`) }
+              >
+                <img src={ shareIcon } alt="Botão de compartilhar" />
+              </button>
+              <button
+                type="button"
+                data-testid={ `${index}-horizontal-favorite-btn` }
                 src={ blackHeartIcon }
-                alt="Botão de desfavoritar"
-              />
-            </button>
-            {isLinkCopied && <div>Link copied!</div>}
+                onClick={ () => handleFavoriteBtn(index) }
+              >
+                <img
+                  src={ blackHeartIcon }
+                  alt="Botão de desfavoritar"
+                />
+              </button>
+              {isLinkCopied && <div>Link copied!</div>}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
     </div>
   );
 };
