@@ -1,11 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import randomFood from '../../services/fetchFromApi';
+import { randomFoodAPI } from '../../services/fetchFromApi';
 
 const ExploreFoods = () => {
-  console.log(randomFood);
+  const history = useHistory();
+
+  const handleSurpriseMe = async () => {
+    const { idMeal } = await randomFoodAPI();
+    history.push(`/foods/${idMeal}`);
+  };
+
   return (
     <div>
       <Header pageName="Explore Foods" searchEnabled={ false } />
@@ -16,9 +22,13 @@ const ExploreFoods = () => {
       <Link to="/explore/foods/nationalities">
         <button type="button" data-testid="explore-by-nationality">By Nationality</button>
       </Link>
-      <Link to="/">
-        <button type="button" data-testid="explore-surprise">Surprise me!</button>
-      </Link>
+      <button
+        type="button"
+        data-testid="explore-surprise"
+        onClick={ handleSurpriseMe }
+      >
+        Surprise me!
+      </button>
     </div>
   );
 };

@@ -62,23 +62,18 @@ export const filterByDrinkCategoryAPI = async (categorie = 'Cocktail_glass') => 
   return data.drinks;
 };
 
-export const randomFood = async () => {
+export const randomFoodAPI = async () => {
   const response = await fetch(
     'https://www.themealdb.com/api/json/v1/1/random.php',
   );
   const data = await response.json();
-  console.log(data);
-  return data;
+  return data.meals[0];
 };
 
-export const randomDrink = async () => {
+export const randomDrinkAPI = async () => {
   const response = await fetch(
     'https://www.thecocktaildb.com/api/json/v1/1/random.php',
   );
   const data = await response.json();
-  console.log(data);
-  return data;
+  return data.drinks[0];
 };
-
-randomDrink();
-randomFood();
