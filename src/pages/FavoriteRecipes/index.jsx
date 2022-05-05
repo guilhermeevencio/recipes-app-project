@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Header from '../../components/Header';
 import shareIcon from '../../images/shareIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
@@ -12,7 +13,7 @@ const THREE_SECOND = 3000;
 
 const FavoriteRecipes = () => {
   const [favorites, setFavorites] = useState([]);
-  const [isLinkCopied, setIsLinkCopied] = useState(false);
+  const [isLinkCopied, setIsLinkCopied] = useState({ display: false, id: '' });
   const [filteredBy, setFilteredBy] = useState('all');
 
   useEffect(() => {
@@ -20,9 +21,9 @@ const FavoriteRecipes = () => {
     setFavorites(result);
   }, []);
 
-  const handleShareBtn = (url) => {
-    setIsLinkCopied(true);
-    setTimeout(() => setIsLinkCopied(false), THREE_SECOND);
+  const handleShareBtn = (url, id) => {
+    setIsLinkCopied({ display: true, id });
+    setTimeout(() => setIsLinkCopied({ display: false, id: '' }), THREE_SECOND);
     navigator.clipboard.writeText(url);
   };
 
@@ -34,27 +35,29 @@ const FavoriteRecipes = () => {
   return (
     <div>
       <Header pageName="Favorite Recipes" searchEnabled={ false } />
-      <button
-        type="button"
-        data-testid="filter-by-all-btn"
-        onClick={ () => setFilteredBy('all') }
-      >
-        All
-      </button>
-      <button
-        type="button"
-        data-testid="filter-by-food-btn"
-        onClick={ () => setFilteredBy('food') }
-      >
-        Food
-      </button>
-      <button
-        type="button"
-        data-testid="filter-by-drink-btn"
-        onClick={ () => setFilteredBy('drink') }
-      >
-        Drink
-      </button>
+      <div>
+        <button
+          type="button"
+          data-testid="filter-by-all-btn"
+          onClick={ () => setFilteredBy('all') }
+        >
+          All
+        </button>
+        <button
+          type="button"
+          data-testid="filter-by-food-btn"
+          onClick={ () => setFilteredBy('food') }
+        >
+          Food
+        </button>
+        <button
+          type="button"
+          data-testid="filter-by-drink-btn"
+          onClick={ () => setFilteredBy('drink') }
+        >
+          Drink
+        </button>
+      </div>
 
       {favorites && favorites
         .filter(({ type }) => (filteredBy === 'all' ? true : type === filteredBy))
@@ -62,23 +65,25 @@ const FavoriteRecipes = () => {
           { id, image, name, nationality, category, type, alcoholicOrNot }, index,
         ) => (
           <div key={ id }>
-            <img
-              data-testid={ `${index}-horizontal-image` }
-              src={ image }
-              alt={ name }
-              width={ 90 }
-            />
-
-            <div>
+            <Link to={ `/${type}s/${id}` }>
+              <img
+                data-testid={ `${index}-horizontal-image` }
+                src={ image }
+                alt={ name }
+                width={ 90 }
+              />
               <div data-testid={ `${index}-horizontal-top-text` }>
                 { type === 'food' ? `${nationality} - ${category}` : alcoholicOrNot}
               </div>
               <div data-testid={ `${index}-horizontal-name` }>{name}</div>
+            </Link>
+
+            <div>
               <button
                 type="button"
                 data-testid={ `${index}-horizontal-share-btn` }
                 src={ shareIcon }
-                onClick={ () => handleShareBtn(`http://localhost:3000/${type}s/${id}`) }
+                onClick={ () => handleShareBtn(`http://localhost:3000/${type}s/${id}`, id) }
               >
                 <img src={ shareIcon } alt="Botão de compartilhar" />
               </button>
@@ -93,7 +98,9 @@ const FavoriteRecipes = () => {
                   alt="Botão de desfavoritar"
                 />
               </button>
-              {isLinkCopied && <div>Link copied!</div>}
+
+              {(isLinkCopied.display && isLinkCopied.id === id)
+                && <div>Link copied!</div>}
             </div>
           </div>
         ))}
