@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import Header from '../../components/Header';
 import shareIcon from '../../images/shareIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
+import {
+  removeFavoriteItemFromLocalStorageByIndex,
+  getArrayOfFavoritesFromLocalStorage,
+} from '../../helpers/localStorageHelpers';
 
 const THREE_SECOND = 3000;
 
@@ -11,20 +15,19 @@ const FavoriteRecipes = () => {
   const [isLinkCopied, setIsLinkCopied] = useState(false);
 
   useEffect(() => {
-    const result = localStorage.getItem('favoriteRecipes');
-    const favoritesFromLocalStorage = JSON.parse(result);
-    setFavorites(favoritesFromLocalStorage);
+    const result = getArrayOfFavoritesFromLocalStorage();
+    setFavorites(result);
   }, []);
-
-  // useEffect de CONSOLE LOG
-  useEffect(() => {
-    console.log(favorites);
-  }, [favorites]);
 
   const handleShareBtn = (url) => {
     setIsLinkCopied(true);
     setTimeout(() => setIsLinkCopied(false), THREE_SECOND);
     navigator.clipboard.writeText(url);
+  };
+
+  const handleFavoriteBtn = (favoriteIndex) => {
+    const result = removeFavoriteItemFromLocalStorageByIndex(favoriteIndex);
+    setFavorites(result);
   };
 
   return (
@@ -77,10 +80,11 @@ const FavoriteRecipes = () => {
               type="button"
               data-testid={ `${index}-horizontal-favorite-btn` }
               src={ blackHeartIcon }
+              onClick={ () => handleFavoriteBtn(index) }
             >
               <img
                 src={ blackHeartIcon }
-                alt="Botão de favoritar"
+                alt="Botão de desfavoritar"
               />
             </button>
             {isLinkCopied && <div>Link copied!</div>}
