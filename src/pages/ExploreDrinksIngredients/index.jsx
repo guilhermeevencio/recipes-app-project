@@ -14,7 +14,6 @@ const ExploreDrinksIngredients = () => {
     const resultCopy = [...result];
     const newResult = resultCopy.splice(0, TWELVE);
     setAllIngredients(newResult);
-    console.log(newResult);
   };
 
   useEffect(() => {
