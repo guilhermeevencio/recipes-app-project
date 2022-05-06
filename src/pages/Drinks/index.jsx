@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
+import { useLocation } from 'react-router-dom';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import RecipeCards from '../../components/RecipeCards';
@@ -7,6 +8,8 @@ import AppContext from '../../context/MyContext';
 import {
   drinkCategoriesAPI,
   filterByDrinkCategoryAPI,
+  searchDrinksByNameAPI,
+  filerByMainIngredientDrinksAPI,
 } from '../../services/fetchFromApi';
 
 const FOR = 4;
@@ -18,16 +21,26 @@ const Drinks = () => {
 
   const { cardDataFromSearchBar } = useContext(AppContext);
 
+  const location = useLocation();
+
   const transformDrinkArrToDefaultArr = (arr) => {
     const newArr = arr.map(({ idDrink, strDrinkThumb, strDrink }) => (
       { id: idDrink, strThumb: strDrinkThumb, str: strDrink, page: 'drinks' }));
     return newArr;
   };
 
+  const verifyIfLocationHaveIngredient = async () => {
+    const index = location.search.indexOf('=');
+    const string = location.search.substring(index + 1);
+    const result = await filerByMainIngredientDrinksAPI(string);
+    console.log('oioioi');
+    return result;
+  };
+
   const fetchDrinksAndStateIt = async () => {
-    const request = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
-    const response = await request.json();
-    const newResults = transformDrinkArrToDefaultArr(response.drinks);
+    const result = location.search ? await verifyIfLocationHaveIngredient()
+      : await searchDrinksByNameAPI();
+    const newResults = transformDrinkArrToDefaultArr(result);
     setCardData(newResults);
   };
 

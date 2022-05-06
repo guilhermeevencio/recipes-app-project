@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useLocation } from 'react-router-dom';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import RecipeCards from '../../components/RecipeCards';
@@ -9,6 +10,7 @@ import {
   searchMealByNameAPI,
   foodCategoriesAPI,
   filterByMealCategoryAPI,
+  filerByMainIngredientFoodsAPI,
 } from '../../services/fetchFromApi';
 
 const FOR = 4;
@@ -20,14 +22,24 @@ const Foods = () => {
 
   const { cardDataFromSearchBar } = useContext(AppContext);
 
+  const location = useLocation();
+
   const transformMealArrToDefaultArr = (arr) => {
     const newArr = arr.map(({ idMeal, strMealThumb, strMeal }) => (
       { id: idMeal, strThumb: strMealThumb, str: strMeal, page: 'foods' }));
     return newArr;
   };
 
+  const verifyIfLocationHaveIngredient = async () => {
+    const index = location.search.indexOf('=');
+    const string = location.search.substring(index + 1);
+    const result = await filerByMainIngredientFoodsAPI(string);
+    return result;
+  };
+
   const fetchMealsAndStateIt = async () => {
-    const result = await searchMealByNameAPI();
+    const result = location.search ? await verifyIfLocationHaveIngredient()
+      : await searchMealByNameAPI();
     const newResults = transformMealArrToDefaultArr(result);
     setCardData(newResults);
   };

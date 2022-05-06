@@ -4,6 +4,7 @@ export const fetchFromApi = async (url) => {
   return data;
 };
 
+// ------------------------------------------->
 // FOODS
 export const searchMealByNameAPI = async (nameSearch = '') => {
   const response = await fetch(
@@ -37,6 +38,31 @@ export const filterByMealCategoryAPI = async (categorie = 'Seafood') => {
   return data.meals;
 };
 
+export const randomFoodAPI = async () => {
+  const response = await fetch(
+    'https://www.themealdb.com/api/json/v1/1/random.php',
+  );
+  const data = await response.json();
+  return data.meals[0];
+};
+
+export const listAllIngredientsFoodsAPI = async () => {
+  const response = await fetch(
+    'https://www.themealdb.com/api/json/v1/1/list.php?i=list',
+  );
+  const data = await response.json();
+  return data.meals;
+};
+
+export const filerByMainIngredientFoodsAPI = async (ingredient) => {
+  const response = await fetch(
+    `https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredient}`,
+  );
+  const data = await response.json();
+  return data.meals;
+};
+
+// ------------------------------------------->
 // DRINKS
 export const searchDrinksByNameAPI = async (nameSearch = '') => {
   const response = await fetch(
@@ -62,18 +88,26 @@ export const filterByDrinkCategoryAPI = async (categorie = 'Cocktail_glass') => 
   return data.drinks;
 };
 
-export const randomFoodAPI = async () => {
-  const response = await fetch(
-    'https://www.themealdb.com/api/json/v1/1/random.php',
-  );
-  const data = await response.json();
-  return data.meals[0];
-};
-
 export const randomDrinkAPI = async () => {
   const response = await fetch(
     'https://www.thecocktaildb.com/api/json/v1/1/random.php',
   );
   const data = await response.json();
   return data.drinks[0];
+};
+
+export const listAllIngredientsDrinksAPI = async () => {
+  const response = await fetch(
+    'https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list',
+  );
+  const data = await response.json();
+  return data.drinks;
+};
+
+export const filerByMainIngredientDrinksAPI = async (ingredient) => {
+  const response = await fetch(
+    `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredient}`,
+  );
+  const data = await response.json();
+  return data.drinks;
 };
