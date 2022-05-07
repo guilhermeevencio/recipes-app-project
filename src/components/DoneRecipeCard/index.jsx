@@ -13,6 +13,7 @@ const DoneRecipeCard = (props) => {
           src={ recipe.image }
           alt="Recipe Item"
           data-testid={ `${index}-horizontal-image` }
+          width="80%"
         />
       </Link>
       <div>
