@@ -1,4 +1,10 @@
 export default function handleWithObjectKeys(obj) {
+  const dealingWithTags = () => {
+    const { strTags } = obj;
+    const arrOfTags = strTags.split(',').filter(Boolean);
+    return arrOfTags;
+  };
+
   switch (obj.type) {
   case 'drink':
     return ({
@@ -17,7 +23,7 @@ export default function handleWithObjectKeys(obj) {
       page: 'drinks',
       pageName: 'Drinks',
       inProgressKey: 'cocktails',
-      tags: obj.strTags || [],
+      tags: obj.strTags ? dealingWithTags() : [],
     });
   case 'food':
     return ({
@@ -36,7 +42,7 @@ export default function handleWithObjectKeys(obj) {
       page: 'foods',
       pageName: 'Foods',
       inProgressKey: 'meals',
-      tags: obj.strTags || [],
+      tags: obj.strTags ? dealingWithTags() : [],
     });
   default:
     break;
