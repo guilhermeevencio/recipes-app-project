@@ -15,33 +15,36 @@ const DoneRecipeCard = (props) => {
         <p
           data-testid={ `${index}-horizontal-top-text` }
         >
-          { recipe.category }
+          {recipe.type === 'food'
+            ? `${recipe.nationality} - ${recipe.category}`
+            : `${recipe.alcoholicOrNot}`}
         </p>
         <h4
           data-testid={ `${index}-horizontal-name` }
         >
-          { recipe.name }
+          {recipe.name}
         </h4>
         <p
           data-testid={ `${index}-horizontal-done-date` }
         >
-          { recipe.doneDate }
+          {recipe.doneDate}
         </p>
         <button
           type="button"
-          data-testid={ `${index}-horizontal-share-btn` }
         >
           <img
             src={ shareImg }
             alt="share icon"
+            data-testid={ `${index}-horizontal-share-btn` }
           />
         </button>
-        {recipe.tags.map((tag) => (
+        {recipe.type === 'food'
+        && recipe.tags.filter((_e, i) => i < 2).map((tag) => (
           <div key={ tag }>
             <p
               data-testid={ `${index}-${tag}-horizontal-tag` }
             >
-              { tag }
+              {tag}
             </p>
           </div>
         ))}
