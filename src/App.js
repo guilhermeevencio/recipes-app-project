@@ -19,6 +19,7 @@ import FoodDetails from './pages/FoodDetails';
 import DrinksDetails from './pages/DrinksDetails';
 import FoodInProgress from './pages/FoodInProgress';
 import DrinkInProgress from './pages/DrinkInProgress';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -74,6 +75,10 @@ function App() {
         exact
         path="/drinks/:drinkId/in-progress"
         render={ (props) => <DrinkInProgress { ...props } /> }
+      />
+      <Route
+        path="*"
+        component={ NotFound }
       />
     </Switch>
   );
