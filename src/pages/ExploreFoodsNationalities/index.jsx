@@ -7,6 +7,7 @@ import RecipeCards from '../../components/RecipeCards';
 const ExploreFoodsByNationalities = () => {
   const [arreaArr, setAreaArr] = useState();
   const [recipesData, setRecipesData] = useState();
+  const [rawData, setRawData] = useState();
 
   useEffect(() => {
     const receiveNationalities = async () => {
@@ -19,20 +20,46 @@ const ExploreFoodsByNationalities = () => {
     const receiveData = async () => {
       const { meals } = await fetchFromApi('https://www.themealdb.com/api/json/v1/1/search.php?s=');
 
-      setRecipesData(meals.map(({ idMeal, strMealThumb, strMeal }) => ({
-        id: idMeal, strThumb: strMealThumb, str: strMeal, page: 'foods',
+      setRecipesData(meals.map(({ idMeal, strMealThumb, strMeal, strArea }) => ({
+        id: idMeal, strThumb: strMealThumb, str: strMeal, page: 'foods', area: strArea,
+      })));
+      setRawData(meals.map(({ idMeal, strMealThumb, strMeal, strArea }) => ({
+        id: idMeal, strThumb: strMealThumb, str: strMeal, page: 'foods', area: strArea,
       })));
     };
     receiveData();
   }, []);
+
+  const handleChange = async ({ target }) => {
+    if (target.value === 'All') {
+      setRecipesData(rawData);
+    } else {
+      const filteredData = await fetchFromApi(
+        `https://www.themealdb.com/api/json/v1/1/filter.php?a=${target.value}`,
+      );
+      setRecipesData(filteredData.meals
+        .map(({ idMeal, strMealThumb, strMeal, strArea }) => ({
+          id: idMeal, strThumb: strMealThumb, str: strMeal, page: 'foods', area: strArea,
+        })));
+    }
+  };
+
   return (
     <div>
-      {console.log(recipesData)}
       <Header pageName="Explore Nationalities" searchEnabled />
       {arreaArr
         && (
-          <select data-testid="explore-by-nationality-dropdown">
-            <option defaultChecked>All</option>
+          <select
+            data-testid="explore-by-nationality-dropdown"
+            onChange={ handleChange }
+          >
+            <option
+              defaultChecked
+              value="All"
+              data-testid="All-option"
+            >
+              All
+            </option>
             {arreaArr.map((area, index) => (
               <option
                 value={ area }
