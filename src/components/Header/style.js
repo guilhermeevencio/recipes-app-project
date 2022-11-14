@@ -16,6 +16,10 @@ export const HeaderContainer = styled.header`
     background-color: ${(props) => props.theme.blue};
     color: ${(props) => props.theme['base-button']}
   }
+
+  h1 {
+    font-weight: 900;
+  }
 `;
 
 export const ButtonsDiv = styled.div`

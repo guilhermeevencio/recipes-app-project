@@ -3,6 +3,13 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import AppContext from '../../context/MyContext';
 import { fetchFromApi } from '../../services/fetchFromApi';
+import {
+  SearchBarDiv,
+  ContentDiv,
+  TextInputDiv,
+  RadioInputsDiv,
+  SearchButton,
+} from './style';
 
 const FIRST_LETTER = 'First Letter';
 
@@ -99,60 +106,64 @@ const SearchBar = (props) => {
   };
 
   return (
-    <div>
-      <div>
-        <input
-          type="text"
-          data-testid="search-input"
-          onChange={ handleSearchValue }
-          value={ searchInputValue }
-        />
-        <label htmlFor="ingredient-search-radio">
+    <SearchBarDiv>
+      <ContentDiv>
+        <TextInputDiv>
           <input
-            type="radio"
-            data-testid="ingredient-search-radio"
-            id="ingredient-search-radio"
-            name="filter"
-            value="Ingredient"
-            defaultChecked
-            onChange={ handleSelected }
+            type="text"
+            data-testid="search-input"
+            onChange={ handleSearchValue }
+            value={ searchInputValue }
           />
-          {' '}
-          Ingredient
-        </label>
-        <label htmlFor="name-search-radio">
-          <input
-            type="radio"
-            data-testid="name-search-radio"
-            id="name-search-radio"
-            name="filter"
-            value="Name"
-            onChange={ handleSelected }
-          />
-          {' '}
-          Name
-        </label>
-        <label htmlFor="first-letter-search-radio">
-          <input
-            type="radio"
-            data-testid="first-letter-search-radio"
-            id="first-letter-search-radio"
-            name="filter"
-            value={ FIRST_LETTER }
-            onChange={ handleSelected }
-          />
-          {' '}
-          First Letter
-        </label>
-        <button
-          type="button"
-          data-testid="exec-search-btn"
-          onClick={ handleSubmit }
-        >
-          Search
-        </button>
-      </div>
-    </div>
+          <SearchButton
+            type="button"
+            data-testid="exec-search-btn"
+            onClick={ handleSubmit }
+          >
+            Search
+          </SearchButton>
+        </TextInputDiv>
+        <RadioInputsDiv>
+          <label htmlFor="ingredient-search-radio">
+            <input
+              type="radio"
+              data-testid="ingredient-search-radio"
+              id="ingredient-search-radio"
+              name="filter"
+              value="Ingredient"
+              defaultChecked
+              onChange={ handleSelected }
+            />
+            {' '}
+            Ingredient
+          </label>
+          <label htmlFor="name-search-radio">
+            <input
+              type="radio"
+              data-testid="name-search-radio"
+              id="name-search-radio"
+              name="filter"
+              value="Name"
+              onChange={ handleSelected }
+            />
+            {' '}
+            Name
+          </label>
+          <label htmlFor="first-letter-search-radio">
+            <input
+              type="radio"
+              data-testid="first-letter-search-radio"
+              id="first-letter-search-radio"
+              name="filter"
+              value={ FIRST_LETTER }
+              onChange={ handleSelected }
+            />
+            {' '}
+            First Letter
+          </label>
+        </RadioInputsDiv>
+      </ContentDiv>
+    </SearchBarDiv>
   );
 };
 
