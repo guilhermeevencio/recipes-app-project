@@ -5,6 +5,8 @@ import Footer from '../../components/Footer';
 import RecipeCards from '../../components/RecipeCards';
 import CategoryButton from '../../components/CategoryButton';
 import AppContext from '../../context/MyContext';
+import {
+  CategoryButtonsContainer, FoodsContainer, Spinner, SpinnerContainer } from './style';
 
 import {
   searchMealByNameAPI,
@@ -19,6 +21,8 @@ const Foods = () => {
   const [cardData, setCardData] = useState([]);
   const [categories, setCategories] = useState([]);
   const [currentCategoryFilter, setCurrentCategoryFilter] = useState('noFilter');
+  const [isLoading, setIsLoading] = useState(true);
+  const [areRecipesLoading, setAreRecipesLoading] = useState(true);
 
   const { cardDataFromSearchBar } = useContext(AppContext);
 
@@ -45,10 +49,13 @@ const Foods = () => {
   };
 
   const fetchCaregoriesAndStateIt = async () => {
+    setAreRecipesLoading(true);
     const result = await foodCategoriesAPI();
     const newResult = result.filter((_e, index) => index <= FOR)
       .map(({ strCategory }) => strCategory);
     setCategories(newResult);
+    setIsLoading(false);
+    setAreRecipesLoading(false);
   };
 
   const fetchFilteredByCaregoryAndStateIt = async (category) => {
@@ -67,29 +74,43 @@ const Foods = () => {
   }, [cardDataFromSearchBar]);
 
   return (
-    <div>
+    <FoodsContainer>
       <Header pageName="Foods" searchEnabled />
-      <button
-        type="button"
-        data-testid="All-category-filter"
-        onClick={
-          () => { fetchMealsAndStateIt(); setCurrentCategoryFilter('noFilter'); }
-        }
-      >
-        All
-      </button>
-      {categories.map((category) => (
-        <CategoryButton
-          category={ category }
-          key={ category }
-          callBack={ fetchFilteredByCaregoryAndStateIt }
-          callBack2={ fetchMealsAndStateIt }
-          currentCategoryFilter={ currentCategoryFilter }
-          setCurrentCategoryFilter={ setCurrentCategoryFilter }
-        />))}
-      {cardData && <RecipeCards cardData={ cardData } />}
-      <Footer pageName="Foods" />
-    </div>
+      {!isLoading
+        ? (
+          <div>
+            <CategoryButtonsContainer>
+              <button
+                type="button"
+                data-testid="All-category-filter"
+                onClick={
+                  () => { fetchMealsAndStateIt(); setCurrentCategoryFilter('noFilter'); }
+                }
+              >
+                All
+              </button>
+              {categories.map((category) => (
+                <CategoryButton
+                  category={ category }
+                  key={ category }
+                  callBack={ fetchFilteredByCaregoryAndStateIt }
+                  callBack2={ fetchMealsAndStateIt }
+                  currentCategoryFilter={ currentCategoryFilter }
+                  setCurrentCategoryFilter={ setCurrentCategoryFilter }
+                />))}
+            </CategoryButtonsContainer>
+          </div>)
+        : null}
+      {!areRecipesLoading
+        ? (
+          <div>
+            {cardData && <RecipeCards cardData={ cardData } />}
+            <Footer pageName="Foods" />
+          </div>
+        )
+        : (<SpinnerContainer><Spinner /></SpinnerContainer>)}
+
+    </FoodsContainer>
   );
 };
 
