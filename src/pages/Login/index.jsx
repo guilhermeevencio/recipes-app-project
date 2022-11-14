@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import AppContext from '../../context/MyContext';
+import { InputsDiv, LoginButton, LoginContainerDiv } from './style';
+import recipesAppLogo from '../../images/recipes-app-logo.png';
 
 function Login() {
   const { setPageName } = useContext(AppContext);
@@ -48,33 +50,36 @@ function Login() {
   };
 
   return (
-    <div>
-      <h1>Recipes App</h1>
-      <input
-        data-testid="email-input"
-        type="email"
-        value={ email }
-        name="email"
-        onChange={ handleChange }
-      />
+    <LoginContainerDiv>
+      <img src={ recipesAppLogo } alt="recipes-app" />
+      <InputsDiv>
+        <input
+          data-testid="email-input"
+          type="email"
+          value={ email }
+          name="email"
+          onChange={ handleChange }
+          placeholder="email@email.com..."
+        />
 
-      <input
-        data-testid="password-input"
-        type="password"
-        value={ password }
-        name="password"
-        onChange={ handleChange }
-      />
-
-      <button
+        <input
+          data-testid="password-input"
+          type="password"
+          value={ password }
+          name="password"
+          onChange={ handleChange }
+          placeholder="Password..."
+        />
+      </InputsDiv>
+      <LoginButton
         data-testid="login-submit-btn"
         type="button"
         disabled={ isDisabled }
         onClick={ handleEnter }
       >
         Enter
-      </button>
-    </div>
+      </LoginButton>
+    </LoginContainerDiv>
   );
 }
 
