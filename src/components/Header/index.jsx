@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import profileIcon from '../../images/profileIcon.svg';
-import searchIcon from '../../images/searchIcon.svg';
+import { MagnifyingGlass, User } from 'phosphor-react';
 import SearchBar from '../SearchBar';
+import { ButtonsDiv, HeaderContainer } from './style';
 
 const Header = (props) => {
   const { pageName, searchEnabled } = props;
@@ -14,39 +14,34 @@ const Header = (props) => {
 
   const history = useHistory();
   return (
-    <header>
-      <button
-        type="button"
-        onClick={ () => history.push('/profile') }
-      >
-        <img
-          src={ profileIcon }
-          data-testid="profile-top-btn"
-          alt="profile button"
-        />
-      </button>
-      <h1
-        data-testid="page-title"
-      >
-        { pageName }
-      </h1>
-      {searchEnabled
+    <>
+      <HeaderContainer>
+        <h1
+          data-testid="page-title"
+        >
+          { pageName }
+        </h1>
+        <ButtonsDiv>
+          {searchEnabled
         && (
           <button
             type="button"
             onClick={ handleSearchBar }
-            src={ searchIcon }
           >
-            <img
-              src={ searchIcon }
-              alt="search button"
-              data-testid="search-top-btn"
-            />
+            <MagnifyingGlass size={ 32 } />
           </button>
         )}
+          <button
+            type="button"
+            onClick={ () => history.push('/profile') }
+          >
+            <User size={ 32 } />
+          </button>
+        </ButtonsDiv>
+      </HeaderContainer>
       {searchIsEnabled
         && <SearchBar page={ pageName } /> }
-    </header>
+    </>
   );
 };
 
